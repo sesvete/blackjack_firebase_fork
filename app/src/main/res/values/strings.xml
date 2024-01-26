@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">Blackjack</string>
+    <string name="points_hint">Player points</string>
+    <string name="player_sum">Player sum</string>
+    <string name="dealer_sum">Dealer sum</string>
+    <string name="btn_start">Start</string>
+    <string name="btn_stop">Stop</string>
+    <string name="edit_username">Enter username</string>
+    <string name="edit_password">Enter Password</string>
+    <string name="edit_password_reenter">Reenter Password</string>
+</resources>
