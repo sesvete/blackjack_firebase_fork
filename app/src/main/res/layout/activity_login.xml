@@ -17,11 +17,14 @@
         android:id="@+id/txtLoginTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="150dp"
-        android:text="TextView"
-        app:layout_constraintEnd_toEndOf="@+id/editTextLoginUser"
-        app:layout_constraintStart_toStartOf="@+id/editTextLoginUser"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:layout_marginTop="20dp"
+        android:text="@string/login_title"
+        app:layout_constraintEnd_toEndOf="@+id/recViewLogin"
+        app:layout_constraintStart_toStartOf="@+id/recViewLogin"
+        app:layout_constraintTop_toTopOf="@+id/guideline"
+        android:textSize="30sp"
+        android:textStyle="bold"
+        />
 
     <ImageView
         android:id="@+id/imageViewLoginAce"
@@ -43,49 +46,32 @@
         app:layout_constraintTop_toBottomOf="@+id/imageViewLoginAce"
         app:srcCompat="@drawable/ic_launcher_background" />
 
-    <EditText
-        android:id="@+id/editTextLoginUser"
-        android:layout_width="170dp"
+    <Button
+        android:id="@+id/btnNewUser"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="40dp"
-        android:layout_marginTop="100dp"
-        android:layout_marginEnd="40dp"
-        android:ems="10"
-        android:inputType="text"
+        android:layout_marginTop="40dp"
+        android:text="@string/login_btn"
+        app:layout_constraintEnd_toEndOf="@+id/recViewLogin"
+        app:layout_constraintStart_toStartOf="@+id/recViewLogin"
+        app:layout_constraintTop_toBottomOf="@+id/recViewLogin" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recViewLogin"
+        android:layout_width="200dp"
+        android:layout_height="400dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="40dp"
+        android:layout_marginEnd="10dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/guidelineLogin"
-        app:layout_constraintTop_toBottomOf="@+id/txtLoginTitle"
-        android:hint="@string/edit_username"/>
+        app:layout_constraintStart_toEndOf="@+id/guidelineLogin"
+        app:layout_constraintTop_toBottomOf="@+id/txtLoginTitle" />
 
-    <EditText
-        android:id="@+id/passLogin"
-        android:layout_width="170dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="50dp"
-        android:ems="10"
-        android:inputType="textPassword"
-        app:layout_constraintEnd_toEndOf="@+id/editTextLoginUser"
-        app:layout_constraintStart_toStartOf="@+id/editTextLoginUser"
-        app:layout_constraintTop_toBottomOf="@+id/editTextLoginUser"
-        android:hint="@string/edit_password"/>
-
-    <Button
-        android:id="@+id/btnLogin"
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="50dp"
-        android:text="Button"
-        app:layout_constraintEnd_toEndOf="@+id/passLogin"
-        app:layout_constraintStart_toStartOf="@+id/passLogin"
-        app:layout_constraintTop_toBottomOf="@+id/passLogin" />
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.1" />
 
-    <Button
-        android:id="@+id/btnCreateUser"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="50dp"
-        android:text="Button"
-        app:layout_constraintEnd_toEndOf="@+id/btnLogin"
-        app:layout_constraintStart_toStartOf="@+id/btnLogin"
-        app:layout_constraintTop_toBottomOf="@+id/btnLogin" />
 </androidx.constraintlayout.widget.ConstraintLayout>

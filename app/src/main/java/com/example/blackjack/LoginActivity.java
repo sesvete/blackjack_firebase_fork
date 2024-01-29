@@ -1,11 +1,16 @@
 package com.example.blackjack;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
+
+import java.util.ArrayList;
 
 // responsible for loging in
 // as of now buttons will sipmly lead to new screans
@@ -29,35 +34,62 @@ import android.widget.Button;
 
 public class LoginActivity extends AppCompatActivity {
 
-    private Button btnLogin;
-    private Button btnCreateUser;
+    private Button btnNewUser;
+    private RecyclerView recViewLogin;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        btnLogin = findViewById(R.id.btnLogin);
-        btnCreateUser = findViewById(R.id.btnCreateUser);
+        btnNewUser = findViewById(R.id.btnNewUser);
+        recViewLogin = findViewById(R.id.recViewLogin);
 
-        btnLogin.setOnClickListener(new View.OnClickListener() {
+        ArrayList<User> userList = new ArrayList<>();
+
+        userList.add(new User(0, "test", 3));
+        userList.add(new User(1, "demo", 1000));
+        userList.add(new User(2, "yep", 2000));
+
+        // for testing manual insertion
+
+        UserRecViewAdapter adapter = new UserRecViewAdapter();
+        adapter.setUserList(userList);
+        recViewLogin.setAdapter(adapter);
+
+        recViewLogin.setLayoutManager(new LinearLayoutManager(this));
+
+        adapter.setOnItemClickListener(new UserRecViewAdapter.OnItemClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onItemClick(View view, int position) {
                 // for now we just lead to the game activity
+
+                // for now we just check if it passes the user id
+
+                int user_id = userList.get(position).getId();
+
                 Intent intent = new Intent(LoginActivity.this, GameActivity.class);
+                intent.putExtra("id", user_id);
                 startActivity(intent);
             }
         });
 
-        btnCreateUser.setOnClickListener(new View.OnClickListener() {
+        adapter.setOnItemLongClickListener(new UserRecViewAdapter.OnItemLongClickListener() {
+            @Override
+            public void onItemLongClick(View view, int position) {
+                Toast.makeText(LoginActivity.this, "id: " + String.valueOf(userList.get(position).getId()) + ", Username: " + userList.get(position).getUserName() + ", points: " + String.valueOf(userList.get(position).getPoints()), Toast.LENGTH_SHORT).show();
+            }
+        });
+
+
+        btnNewUser.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //for now we just lead to the new user activity
+
                 Intent intent = new Intent(LoginActivity.this, NewUserActivity.class);
                 startActivity(intent);
             }
         });
-
 
     }
 }
