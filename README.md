@@ -12,13 +12,15 @@ The app has three activities
 login into an existing account
 if we don't have an account, we can create a new one through the new user activity
 
+recycler view
+
 constraint layout
 
 ## New user activity
 
 responsible for creating new accounts
 
-The purpose ofe the first two activities ist to have an excuse to use an database, therefore we don not bother with account security
+The purpose of the first two activities is to have an excuse to use an database
 
 constraint layout
 

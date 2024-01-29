@@ -12,6 +12,18 @@ import android.widget.Button;
 
 // for pictures get a picture of an ac anc a king or smth
 
+// ne bo gesla!
+// začetni sazlon anj vsebuje seznam z imeni uporabnikov in njihovimi točkami
+// uporabnika se izberee s klikom naj
+// poleg tega naj bo še gum za ustvarjanje novega uporabnika, ki pelje na NEWUSERactivity
+
+// podatkovna baza
+// Players.sql (or. smth)
+// stolpci id (int primary key autoincrement), uIme (text / string), tocke (int)
+
+
+// TODO: recycler view
+
 // TODO: watch imageview tutorial
 // TODO: implement database
 

@@ -7,6 +7,11 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
+// naj ima samo eno vnosno polje (za ime uporabnika)
+// preveri se sintaksa, pa v podatkovni bazi, če uporabnik s tem imenom že ostaja
+// gumb za kreacijo, gumb za nazaj
+
+
 // TODO: watch imageview tutorial
 // TODO: implement database
 
