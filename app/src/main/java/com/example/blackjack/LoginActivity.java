@@ -27,15 +27,17 @@ import java.util.ArrayList;
 // stolpci id (int primary key autoincrement), uIme (text / string), tocke (int)
 
 
-// TODO: recycler view
-
 // TODO: watch imageview tutorial
-// TODO: implement database
+
+// TODO: add images
+// TODO: FIX THEME
+// TODO: delete entry from database
 
 public class LoginActivity extends AppCompatActivity {
 
     private Button btnNewUser;
     private RecyclerView recViewLogin;
+    private ArrayList<User> userList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,11 +47,9 @@ public class LoginActivity extends AppCompatActivity {
         btnNewUser = findViewById(R.id.btnNewUser);
         recViewLogin = findViewById(R.id.recViewLogin);
 
-        ArrayList<User> userList = new ArrayList<>();
+        DBHelper dbHelper = new DBHelper(LoginActivity.this);
 
-        userList.add(new User(0, "test", 3));
-        userList.add(new User(1, "demo", 1000));
-        userList.add(new User(2, "yep", 2000));
+        userList = dbHelper.getList();
 
         // for testing manual insertion
 
@@ -77,7 +77,9 @@ public class LoginActivity extends AppCompatActivity {
         adapter.setOnItemLongClickListener(new UserRecViewAdapter.OnItemLongClickListener() {
             @Override
             public void onItemLongClick(View view, int position) {
-                Toast.makeText(LoginActivity.this, "id: " + String.valueOf(userList.get(position).getId()) + ", Username: " + userList.get(position).getUserName() + ", points: " + String.valueOf(userList.get(position).getPoints()), Toast.LENGTH_SHORT).show();
+                Toast.makeText(LoginActivity.this, "id: " + String.valueOf(userList.get(position).getId()) +
+                        ", Username: " + userList.get(position).getUserName() + ", points: " + String.valueOf(userList.get(position).getPoints()),
+                        Toast.LENGTH_SHORT).show();
             }
         });
 
