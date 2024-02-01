@@ -9,7 +9,9 @@
     <string name="dealer_sum">Dealer sum</string>
     <string name="btn_start">Start</string>
     <string name="btn_stop">Stop</string>
+    <string name="new_user_title">New user</string>
     <string name="edit_username">Enter username</string>
-    <string name="edit_password">Enter Password</string>
-    <string name="edit_password_reenter">Reenter Password</string>
+    <string name="create_user">Create user</string>
+    <string name="back">Back</string>
+
 </resources>
