@@ -17,11 +17,13 @@
         android:id="@+id/txtNewUserTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="150dp"
-        android:text="TextView"
+        android:layout_marginTop="20dp"
+        android:text="@string/new_user_title"
+        android:textSize="30sp"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="@+id/editTextCreateUser"
         app:layout_constraintStart_toStartOf="@+id/editTextCreateUser"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="@+id/guideline2" />
 
     <ImageView
         android:id="@+id/imageViewNewUserAce"
@@ -46,64 +48,47 @@
     <EditText
         android:id="@+id/editTextCreateUser"
         android:layout_width="170dp"
-        android:layout_height="wrap_content"
+        android:layout_height="50dp"
         android:layout_marginStart="40dp"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="100dp"
         android:layout_marginEnd="40dp"
         android:ems="10"
+        android:hint="@string/edit_username"
         android:inputType="text"
+        android:textAlignment="center"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@+id/guidelineNewUser"
         app:layout_constraintTop_toBottomOf="@+id/txtNewUserTitle"
-        android:hint="@string/edit_username"/>
-
-    <EditText
-        android:id="@+id/passNewUser"
-        android:layout_width="170dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="50dp"
-        android:ems="10"
-        android:inputType="textPassword"
-        app:layout_constraintEnd_toEndOf="@+id/editTextCreateUser"
-        app:layout_constraintStart_toStartOf="@+id/editTextCreateUser"
-        app:layout_constraintTop_toBottomOf="@+id/editTextCreateUser"
-        android:hint="@string/edit_password_reenter"/>
-
-    <EditText
-        android:id="@+id/passRepeat"
-        android:layout_width="170dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="50dp"
-        android:ems="10"
-        android:inputType="textPassword"
-        app:layout_constraintEnd_toEndOf="@+id/passNewUser"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/passNewUser"
-        app:layout_constraintTop_toBottomOf="@+id/passNewUser"
-        android:hint="@string/edit_password_reenter"/>
+        android:autofillHints="name"/>
 
     <Button
         android:id="@+id/btnCreate"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="50dp"
-        android:text="Button"
-        app:layout_constraintEnd_toEndOf="@+id/passRepeat"
-        app:layout_constraintHorizontal_bias="0.491"
-        app:layout_constraintStart_toStartOf="@+id/passRepeat"
-        app:layout_constraintTop_toBottomOf="@+id/passRepeat"
-        />
+        android:layout_width="160dp"
+        android:layout_height="60dp"
+        android:layout_marginTop="100dp"
+        android:text="@string/create_user"
+        app:layout_constraintEnd_toEndOf="@+id/editTextCreateUser"
+        app:layout_constraintStart_toStartOf="@+id/editTextCreateUser"
+        app:layout_constraintTop_toBottomOf="@+id/editTextCreateUser" />
 
     <Button
         android:id="@+id/btnBack"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="50dp"
-        android:text="Button"
+        android:layout_width="160dp"
+        android:layout_height="60dp"
+        android:layout_marginTop="80dp"
+        android:text="@string/back"
         app:layout_constraintEnd_toEndOf="@+id/btnCreate"
         app:layout_constraintStart_toStartOf="@+id/btnCreate"
-        app:layout_constraintTop_toBottomOf="@+id/btnCreate" />
+        app:layout_constraintTop_toBottomOf="@+id/btnCreate"
 
+        />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.1" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
