@@ -7,23 +7,32 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Toast;
+
+import com.bumptech.glide.Glide;
 
 
 // TODO: watch imageview tutorial
 
-// TODO: add images
 // TODO: fix theme
 
 public class NewUserActivity extends AppCompatActivity {
 
     private Button btnCreate, btnBack;
     private EditText editTextCreateUser;
+    private ImageView imageViewNewUserAce, imageViewNewUserKing;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_user);
+
+        imageViewNewUserAce = findViewById(R.id.imageViewNewUserAce);
+        imageViewNewUserKing = findViewById(R.id.imageViewNewUserKing);
+
+        Glide.with(this).asBitmap().load("https://deckofcardsapi.com/static/img/AH.png").into(imageViewNewUserAce);
+        Glide.with(this).asBitmap().load("https://deckofcardsapi.com/static/img/KH.png").into(imageViewNewUserKing);
 
         editTextCreateUser = findViewById(R.id.editTextCreateUser);
         btnCreate = findViewById(R.id.btnCreate);

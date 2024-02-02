@@ -13,5 +13,7 @@
     <string name="edit_username">Enter username</string>
     <string name="create_user">Create user</string>
     <string name="back">Back</string>
+    <string name="AH">Ace of Hearts</string>
+    <string name="KH">King of Hearts</string>
 
 </resources>

@@ -8,7 +8,10 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.Toast;
+
+import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
 
@@ -26,10 +29,12 @@ import java.util.ArrayList;
 // Players.sql (or. smth)
 // stolpci id (int primary key autoincrement), uIme (text / string), tocke (int)
 
+// playing card dimensions height: 89mm, width 64mm
+// 1:1,391
+
 
 // TODO: watch imageview tutorial
 
-// TODO: add images
 // TODO: FIX THEME
 // TODO: delete entry from database
 
@@ -38,11 +43,18 @@ public class LoginActivity extends AppCompatActivity {
     private Button btnNewUser;
     private RecyclerView recViewLogin;
     private ArrayList<User> userList;
+    private ImageView imageViewLoginAce, imageViewLoginKing;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
+        imageViewLoginAce = findViewById(R.id.imageViewLoginAce);
+        imageViewLoginKing = findViewById(R.id.imageViewLoginKing);
+
+        Glide.with(this).asBitmap().load("https://deckofcardsapi.com/static/img/AH.png").into(imageViewLoginAce);
+        Glide.with(this).asBitmap().load("https://deckofcardsapi.com/static/img/KH.png").into(imageViewLoginKing);
 
         btnNewUser = findViewById(R.id.btnNewUser);
         recViewLogin = findViewById(R.id.recViewLogin);

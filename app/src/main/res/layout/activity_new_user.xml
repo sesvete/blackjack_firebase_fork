@@ -27,23 +27,27 @@
 
     <ImageView
         android:id="@+id/imageViewNewUserAce"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="150dp"
+        android:layout_width="100dp"
+        android:layout_height="139dp"
+        android:layout_marginTop="70dp"
         app:layout_constraintEnd_toStartOf="@+id/guidelineNewUser"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_launcher_background" />
+        app:layout_constraintTop_toBottomOf="@+id/guideline2"
+        app:srcCompat="@drawable/ic_launcher_background"
+        android:contentDescription="@string/AH"
+        />
 
     <ImageView
         android:id="@+id/imageViewNewUserKing"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="50dp"
+        android:layout_width="100dp"
+        android:layout_height="139dp"
+        android:layout_marginTop="70dp"
         app:layout_constraintEnd_toEndOf="@+id/imageViewNewUserAce"
         app:layout_constraintStart_toStartOf="@+id/imageViewNewUserAce"
         app:layout_constraintTop_toBottomOf="@+id/imageViewNewUserAce"
-        app:srcCompat="@drawable/ic_launcher_background" />
+        app:srcCompat="@drawable/ic_launcher_background"
+        android:contentDescription="@string/KH"
+        />
 
     <EditText
         android:id="@+id/editTextCreateUser"
@@ -52,14 +56,14 @@
         android:layout_marginStart="40dp"
         android:layout_marginTop="100dp"
         android:layout_marginEnd="40dp"
+        android:autofillHints="name"
         android:ems="10"
         android:hint="@string/edit_username"
         android:inputType="text"
         android:textAlignment="center"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@+id/guidelineNewUser"
-        app:layout_constraintTop_toBottomOf="@+id/txtNewUserTitle"
-        android:autofillHints="name"/>
+        app:layout_constraintTop_toBottomOf="@+id/txtNewUserTitle" />
 
     <Button
         android:id="@+id/btnCreate"
@@ -75,7 +79,7 @@
         android:id="@+id/btnBack"
         android:layout_width="160dp"
         android:layout_height="60dp"
-        android:layout_marginTop="80dp"
+        android:layout_marginTop="60dp"
         android:text="@string/back"
         app:layout_constraintEnd_toEndOf="@+id/btnCreate"
         app:layout_constraintStart_toStartOf="@+id/btnCreate"
@@ -88,7 +92,20 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.1" />
+        app:layout_constraintGuide_percent="0.2" />
+
+    <TextView
+        android:id="@+id/txtAppTitleNewUser"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/app_name"
+        app:layout_constraintBottom_toTopOf="@+id/guideline2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:textSize="50sp"
+        android:textStyle="bold"
+        />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
