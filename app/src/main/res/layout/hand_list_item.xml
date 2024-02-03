@@ -17,7 +17,9 @@
             android:layout_width="79dp"
             android:layout_height="110dp"
             android:src="@drawable/ic_launcher_background"
-            android:layout_margin="5dp" />
+            android:layout_margin="5dp"
+            android:contentDescription="@string/card_image"
+            />
     </RelativeLayout>
 
 </androidx.cardview.widget.CardView>

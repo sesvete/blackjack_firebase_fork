@@ -15,5 +15,7 @@
     <string name="back">Back</string>
     <string name="AH">Ace of Hearts</string>
     <string name="KH">King of Hearts</string>
+    <string name="card_image">Card image</string>
+
 
 </resources>
