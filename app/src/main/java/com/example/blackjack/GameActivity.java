@@ -14,6 +14,8 @@ import com.android.volley.VolleyError;
 
 import java.util.ArrayList;
 
+// NEED TO ADD CALCULATION!!!!
+
 // TODO: implement deck of cards api
 
 // TODO: Functioning Buttons
