@@ -6,9 +6,15 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 import android.widget.Toast;
 
+import com.android.volley.VolleyError;
+
 import java.util.ArrayList;
+
+// NEED TO ADD CALCULATION!!!!
 
 // TODO: implement deck of cards api
 
@@ -17,6 +23,9 @@ import java.util.ArrayList;
 // TODO: Implement database
 // TODO: calculations
 // TODO: end of game procedures
+
+// TODO: Dealers second card needs to be hidden
+// TODO: dealer draws cars on clicking hold - for now draw till he has 5 cards in hand
 // layout can be called hand_list_item
 // recycler view will use card view widget look at recyclerV_dn_4_2
 // adapter can be called HandRecViewAdapter
@@ -27,6 +36,8 @@ public class GameActivity extends AppCompatActivity {
 
     private RecyclerView recyclerDealerHand, recyclerPlayerHand;
     private ArrayList<Card> dealerHand, playerHand;
+    private Button btnStart, btnStop;
+    private String shuffleUrl, deckID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +52,8 @@ public class GameActivity extends AppCompatActivity {
             Toast.makeText(this, "Couldnt get user data restart application and log in again", Toast.LENGTH_SHORT).show();
 
         }
+        btnStart = findViewById(R.id.btnStart);
+        btnStop = findViewById(R.id.btnStop);
 
         recyclerDealerHand = findViewById(R.id.recyclerDealerHand);
         recyclerPlayerHand = findViewById(R.id.recyclerPlayerHand);
@@ -50,29 +63,96 @@ public class GameActivity extends AppCompatActivity {
         dealerHand = new ArrayList<>();
         playerHand = new ArrayList<>();
 
-        // for now we simply add 5 cards in each hand
-        dealerHand.add(new Card("2H", "https://deckofcardsapi.com/static/img/2H.png", "2", "HEARTS"));
-        dealerHand.add(new Card("7H", "https://deckofcardsapi.com/static/img/7H.png", "7", "HEARTS"));
-        dealerHand.add(new Card("QH", "https://deckofcardsapi.com/static/img/QH.png", "Q", "HEARTS"));
-        dealerHand.add(new Card("9H", "https://deckofcardsapi.com/static/img/9H.png", "9", "HEARTS"));
-        dealerHand.add(new Card("5H", "https://deckofcardsapi.com/static/img/5H.png", "5", "HEARTS"));
+        GameMethod gameMethod = new GameMethod();
 
-        dealerAdapter.setDealerHand(dealerHand);
-        recyclerDealerHand.setAdapter(dealerAdapter);
-
-
-        playerHand.add(new Card("KC", "https://deckofcardsapi.com/static/img/KC.png", "K", "CLUBS"));
-        playerHand.add(new Card("7C", "https://deckofcardsapi.com/static/img/7C.png", "7", "CLUBS"));
-        playerHand.add(new Card("AC", "https://deckofcardsapi.com/static/img/AC.png", "A", "CLUBS"));
-        playerHand.add(new Card("9C", "https://deckofcardsapi.com/static/img/9C.png", "9", "CLUBS"));
-        playerHand.add(new Card("5C", "https://deckofcardsapi.com/static/img/5C.png", "5", "CLUBS"));
-
+        shuffleUrl = "https://www.deckofcardsapi.com/api/deck/new/shuffle/?deck_count=1";
         playerAdapter.setPlayerHand(playerHand);
         recyclerPlayerHand.setAdapter(playerAdapter);
+        dealerAdapter.setDealerHand(dealerHand);
+        recyclerDealerHand.setAdapter(dealerAdapter);
 
         recyclerDealerHand.setLayoutManager(new GridLayoutManager(this, 4));
         recyclerPlayerHand.setLayoutManager(new GridLayoutManager(this, 4));
 
+        btnStart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (btnStart.getText().toString().equals("Start")) {
+                    // we need to make sure we got the id
+                    gameMethod.shuffleDeck(shuffleUrl, GameActivity.this, new GameMethod.ShuffleCallback() {
+                        @Override
+                        public void onShuffleComplete(String ID) {
+                            Toast.makeText(GameActivity.this, ID, Toast.LENGTH_SHORT).show();
+                            deckID = ID;
+                            gameMethod.drawCard(deckID, "2", playerHand, GameActivity.this, new GameMethod.DrawCardCallback() {
+                                @Override
+                                public void onDrawComplete(ArrayList<Card> hand) {
+                                    recyclerPlayerHand.setAdapter(playerAdapter);
+                                }
+
+                                @Override
+                                public void onDrawError(VolleyError error) {
+                                    Toast.makeText(GameActivity.this, "Error", Toast.LENGTH_SHORT).show();
+                                }
+                            });
+                            gameMethod.drawCard(deckID, "2", dealerHand, GameActivity.this, new GameMethod.DrawCardCallback() {
+                                @Override
+                                public void onDrawComplete(ArrayList<Card> hand) {
+                                    recyclerDealerHand.setAdapter(dealerAdapter);
+                                }
+
+                                @Override
+                                public void onDrawError(VolleyError error) {
+                                    Toast.makeText(GameActivity.this, "Error", Toast.LENGTH_SHORT).show();
+                                }
+                            });
+                            btnStart.setText("Hit");
+                        }
+
+                        @Override
+                        public void onShuffleError(String errorMessage) {
+                            Toast.makeText(GameActivity.this, "error", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                    // dealer draws two cards
+                    // player draws two cards
+                    // check points
+                    // text se spremeni v Hit
+                } else if (btnStart.getText().toString().equals("Hit")){
+                    gameMethod.drawCard(deckID, "1", playerHand, GameActivity.this, new GameMethod.DrawCardCallback() {
+                        @Override
+                        public void onDrawComplete(ArrayList<Card> hand) {
+                            Toast.makeText(GameActivity.this, deckID, Toast.LENGTH_SHORT).show();
+                            recyclerPlayerHand.setAdapter(playerAdapter);
+                        }
+
+                        @Override
+                        public void onDrawError(VolleyError error) {
+                            Toast.makeText(GameActivity.this, "Error", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                    // player draws card
+                    // check points
+                } else{
+                    Toast.makeText(GameActivity.this, "Error, please restart the aplication", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
+        btnStop.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (btnStop.getText().toString().equals("Stop")){
+                    // back to login screen
+                    Intent stop = new Intent(GameActivity.this, LoginActivity.class);
+                    startActivity(stop);
+                } else if (btnStop.getText().toString().equals("Hold")) {
+                    // dealer draws cards
+                } else{
+                    Toast.makeText(GameActivity.this, "Error, please restart the aplication", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
 
     }
 }

@@ -97,12 +97,13 @@
         android:layout_below="@id/recyclerPlayerHand"
         android:gravity="center">
         <Button
-            android:id="@+id/bntStart"
+            android:id="@+id/btnStart"
             android:layout_width="120dp"
             android:layout_height="50dp"
             android:text="@string/btn_start"
             android:layout_marginEnd="50dp"/>
         <Button
+            android:id="@+id/btnStop"
             android:layout_width="120dp"
             android:layout_height="50dp"
             android:text="@string/btn_stop"/>
