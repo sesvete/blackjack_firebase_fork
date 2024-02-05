@@ -51,7 +51,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/txtPlayerSumTitle"
-                android:hint="@string/player_sum"
+                android:textAlignment="center"
+                android:text="0"
                 android:textStyle="bold"
                 android:textSize="18sp"/>
 
@@ -75,7 +76,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/txtDealerSumTitle"
-                android:hint="@string/player_sum"
+                android:textAlignment="center"
+                android:text="0"
                 android:textStyle="bold"
                 android:textSize="18sp"/>
         </RelativeLayout>

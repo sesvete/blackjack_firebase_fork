@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.VolleyError;
@@ -38,6 +39,8 @@ public class GameActivity extends AppCompatActivity {
     private ArrayList<Card> dealerHand, playerHand;
     private Button btnStart, btnStop;
     private String shuffleUrl, deckID;
+    private TextView txtPlayerSumSum, txtDealerSumSum;
+    private int sumPlayer, sumDealer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,6 +77,12 @@ public class GameActivity extends AppCompatActivity {
         recyclerDealerHand.setLayoutManager(new GridLayoutManager(this, 4));
         recyclerPlayerHand.setLayoutManager(new GridLayoutManager(this, 4));
 
+        txtPlayerSumSum = findViewById(R.id.txtPlayerSumSum);
+        txtDealerSumSum = findViewById(R.id.txtDealerSumSum);
+
+        sumDealer = Integer.parseInt(txtDealerSumSum.getText().toString());
+        sumPlayer = Integer.parseInt(txtPlayerSumSum.getText().toString());
+
         btnStart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -84,7 +93,7 @@ public class GameActivity extends AppCompatActivity {
                         public void onShuffleComplete(String ID) {
                             Toast.makeText(GameActivity.this, ID, Toast.LENGTH_SHORT).show();
                             deckID = ID;
-                            gameMethod.drawCard(deckID, "2", playerHand, GameActivity.this, new GameMethod.DrawCardCallback() {
+                            gameMethod.drawCard(deckID, "2", playerHand,GameActivity.this, new GameMethod.DrawCardCallback() {
                                 @Override
                                 public void onDrawComplete(ArrayList<Card> hand) {
                                     recyclerPlayerHand.setAdapter(playerAdapter);

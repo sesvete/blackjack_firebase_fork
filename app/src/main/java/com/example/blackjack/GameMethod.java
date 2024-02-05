@@ -12,6 +12,7 @@ import com.android.volley.toolbox.Volley;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class GameMethod {
@@ -82,4 +83,19 @@ public class GameMethod {
         queue.start();
     }
 
+    private int updateCardSum(String cardValue, int totalSum) {
+        String[] jqk = {"JACK", "QUEEN", "KING"};
+        if (Arrays.asList(jqk).contains(cardValue)){
+            totalSum += 10;
+        } else if (cardValue.equals("ACE")) {
+            if (totalSum < 11){
+                totalSum += 11;
+            } else {
+                totalSum += 1;
+            }
+        } else {
+            totalSum += Integer.parseInt(cardValue);
+        }
+        return totalSum;
+    }
 }
