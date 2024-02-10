@@ -15,7 +15,47 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+// TODO: Check for total sum before drawing card
+// TODO: hide swecond card drawn by dealer
+
+// for the image we will probably need to
+
 public class GameMethod {
+
+    private int playerSum;
+    private int dealerSum;
+    private int dealerRevealedValue;
+
+    public GameMethod(int playerSum, int dealerSum, int dealerRevealedValue) {
+        this.playerSum = playerSum;
+        this.dealerSum = dealerSum;
+        this.dealerRevealedValue = dealerRevealedValue;
+    }
+
+    public int getPlayerSum() {
+        return playerSum;
+    }
+
+    public void setPlayerSum(int playerSum) {
+        this.playerSum = playerSum;
+    }
+
+    public int getDealerSum() {
+        return dealerSum;
+    }
+
+    public void setDealerSum(int dealerSum) {
+        this.dealerSum = dealerSum;
+    }
+
+    public int getDealerRevealedValue() {
+        return dealerRevealedValue;
+    }
+
+    public void setDealerRevealedValue(int dealerRevealedValue) {
+        this.dealerRevealedValue = dealerRevealedValue;
+    }
+
     public interface ShuffleCallback {
         void onShuffleComplete(String ID);
         void onShuffleError(String errorMessage);
@@ -50,7 +90,7 @@ public class GameMethod {
         queue.start();
     }
 
-    public void drawCard(String deckID, String numberDrawn, ArrayList<Card> hand, Context context, DrawCardCallback callback){
+    public void drawCard(String deckID, String numberDrawn, ArrayList<Card> hand, boolean isPlayer, Context context, DrawCardCallback callback){
         Gson gson = new Gson();
         String drawUrl = "https://www.deckofcardsapi.com/api/deck/" + deckID + "/draw/?count=" + numberDrawn;
 
@@ -66,6 +106,13 @@ public class GameMethod {
                     String suit = card.getSuit();
 
                     hand.add(new Card(code, image, value, suit));
+                    if (isPlayer){
+                        setPlayerSum(updateCardSum(value, getPlayerSum()));
+                    }
+                    // here we have to check how may cars are in hand
+                    else{
+                        setDealerSum(updateCardSum(value, getDealerSum()));
+                    }
                 }
                 callback.onDrawComplete(hand);
 

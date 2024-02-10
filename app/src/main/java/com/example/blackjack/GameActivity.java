@@ -40,7 +40,6 @@ public class GameActivity extends AppCompatActivity {
     private Button btnStart, btnStop;
     private String shuffleUrl, deckID;
     private TextView txtPlayerSumSum, txtDealerSumSum;
-    private int sumPlayer, sumDealer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,10 +48,9 @@ public class GameActivity extends AppCompatActivity {
         Intent intent = getIntent();
         if (intent != null){
             int id = intent.getIntExtra("id", 100);
-            Toast.makeText(this, "User id is: " + String.valueOf(id), Toast.LENGTH_SHORT).show();
         }
         else {
-            Toast.makeText(this, "Couldnt get user data restart application and log in again", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Couldn't get user data restart application and log in again", Toast.LENGTH_SHORT).show();
 
         }
         btnStart = findViewById(R.id.btnStart);
@@ -66,7 +64,7 @@ public class GameActivity extends AppCompatActivity {
         dealerHand = new ArrayList<>();
         playerHand = new ArrayList<>();
 
-        GameMethod gameMethod = new GameMethod();
+        GameMethod gameMethod = new GameMethod(0, 0, 0);
 
         shuffleUrl = "https://www.deckofcardsapi.com/api/deck/new/shuffle/?deck_count=1";
         playerAdapter.setPlayerHand(playerHand);
@@ -80,8 +78,8 @@ public class GameActivity extends AppCompatActivity {
         txtPlayerSumSum = findViewById(R.id.txtPlayerSumSum);
         txtDealerSumSum = findViewById(R.id.txtDealerSumSum);
 
-        sumDealer = Integer.parseInt(txtDealerSumSum.getText().toString());
-        sumPlayer = Integer.parseInt(txtPlayerSumSum.getText().toString());
+        txtPlayerSumSum.setText(String.valueOf(gameMethod.getPlayerSum()));
+        txtDealerSumSum.setText(String.valueOf(gameMethod.getDealerSum()));
 
         btnStart.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -91,12 +89,13 @@ public class GameActivity extends AppCompatActivity {
                     gameMethod.shuffleDeck(shuffleUrl, GameActivity.this, new GameMethod.ShuffleCallback() {
                         @Override
                         public void onShuffleComplete(String ID) {
-                            Toast.makeText(GameActivity.this, ID, Toast.LENGTH_SHORT).show();
                             deckID = ID;
-                            gameMethod.drawCard(deckID, "2", playerHand,GameActivity.this, new GameMethod.DrawCardCallback() {
+                            gameMethod.drawCard(deckID, "2", playerHand, true, GameActivity.this, new GameMethod.DrawCardCallback() {
                                 @Override
                                 public void onDrawComplete(ArrayList<Card> hand) {
                                     recyclerPlayerHand.setAdapter(playerAdapter);
+                                    txtPlayerSumSum.setText(String.valueOf(gameMethod.getPlayerSum()));
+
                                 }
 
                                 @Override
@@ -104,10 +103,12 @@ public class GameActivity extends AppCompatActivity {
                                     Toast.makeText(GameActivity.this, "Error", Toast.LENGTH_SHORT).show();
                                 }
                             });
-                            gameMethod.drawCard(deckID, "2", dealerHand, GameActivity.this, new GameMethod.DrawCardCallback() {
+                            gameMethod.drawCard(deckID, "2", dealerHand, false, GameActivity.this, new GameMethod.DrawCardCallback() {
                                 @Override
                                 public void onDrawComplete(ArrayList<Card> hand) {
                                     recyclerDealerHand.setAdapter(dealerAdapter);
+                                    txtDealerSumSum.setText(String.valueOf(gameMethod.getDealerSum()));
+
                                 }
 
                                 @Override
@@ -116,6 +117,7 @@ public class GameActivity extends AppCompatActivity {
                                 }
                             });
                             btnStart.setText("Hit");
+                            btnStop.setText("Hold");
                         }
 
                         @Override
@@ -128,11 +130,11 @@ public class GameActivity extends AppCompatActivity {
                     // check points
                     // text se spremeni v Hit
                 } else if (btnStart.getText().toString().equals("Hit")){
-                    gameMethod.drawCard(deckID, "1", playerHand, GameActivity.this, new GameMethod.DrawCardCallback() {
+                    gameMethod.drawCard(deckID, "1", playerHand, true, GameActivity.this, new GameMethod.DrawCardCallback() {
                         @Override
                         public void onDrawComplete(ArrayList<Card> hand) {
-                            Toast.makeText(GameActivity.this, deckID, Toast.LENGTH_SHORT).show();
                             recyclerPlayerHand.setAdapter(playerAdapter);
+                            txtPlayerSumSum.setText(String.valueOf(gameMethod.getPlayerSum()));
                         }
 
                         @Override
@@ -143,7 +145,7 @@ public class GameActivity extends AppCompatActivity {
                     // player draws card
                     // check points
                 } else{
-                    Toast.makeText(GameActivity.this, "Error, please restart the aplication", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(GameActivity.this, "Error, please restart the application", Toast.LENGTH_SHORT).show();
                 }
             }
         });
