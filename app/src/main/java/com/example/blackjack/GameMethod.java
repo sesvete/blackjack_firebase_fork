@@ -16,7 +16,7 @@ import java.util.Arrays;
 import java.util.List;
 
 // TODO: Check for total sum before drawing card
-// TODO: hide swecond card drawn by dealer
+// TODO: hide second card drawn by dealer
 
 // for the image we will probably need to
 
@@ -115,7 +115,6 @@ public class GameMethod {
                     }
                 }
                 callback.onDrawComplete(hand);
-
             }
         }, new Response.ErrorListener() {
             @Override
@@ -128,6 +127,10 @@ public class GameMethod {
         RequestQueue queue = Volley.newRequestQueue(context);
         queue.add(request);
         queue.start();
+    }
+
+    public void gameResolution(){
+        // method designed for comparing sums and deciding winner
     }
 
     private int updateCardSum(String cardValue, int totalSum) {

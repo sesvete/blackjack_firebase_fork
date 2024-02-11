@@ -14,6 +14,8 @@ import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
 
+// TODO: hide and later reveal the second dealer card
+
 public class DealerHandRecViewAdapter extends RecyclerView.Adapter<DealerHandRecViewAdapter.ViewHolder> {
 
     private ArrayList<Card> dealerHand = new ArrayList<>();
@@ -35,7 +37,13 @@ public class DealerHandRecViewAdapter extends RecyclerView.Adapter<DealerHandRec
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        Glide.with(context).asBitmap().load(dealerHand.get(position).getImage()).into(holder.imgHandCard);
+        /*
+        if (position == 1){
+            Glide.with(context).asBitmap().load(dealerHand.get(position).getCardBack()).into(holder.imgHandCard);
+        } else {
+            */
+            Glide.with(context).asBitmap().load(dealerHand.get(position).getImage()).into(holder.imgHandCard);
+        //}
     }
 
     @Override
