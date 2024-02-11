@@ -12,9 +12,50 @@ import com.android.volley.toolbox.Volley;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
+// TODO: Check for total sum before drawing card
+// TODO: hide second card drawn by dealer
+
+// for the image we will probably need to
+
 public class GameMethod {
+
+    private int playerSum;
+    private int dealerSum;
+    private int dealerRevealedValue;
+
+    public GameMethod(int playerSum, int dealerSum, int dealerRevealedValue) {
+        this.playerSum = playerSum;
+        this.dealerSum = dealerSum;
+        this.dealerRevealedValue = dealerRevealedValue;
+    }
+
+    public int getPlayerSum() {
+        return playerSum;
+    }
+
+    public void setPlayerSum(int playerSum) {
+        this.playerSum = playerSum;
+    }
+
+    public int getDealerSum() {
+        return dealerSum;
+    }
+
+    public void setDealerSum(int dealerSum) {
+        this.dealerSum = dealerSum;
+    }
+
+    public int getDealerRevealedValue() {
+        return dealerRevealedValue;
+    }
+
+    public void setDealerRevealedValue(int dealerRevealedValue) {
+        this.dealerRevealedValue = dealerRevealedValue;
+    }
+
     public interface ShuffleCallback {
         void onShuffleComplete(String ID);
         void onShuffleError(String errorMessage);
@@ -49,7 +90,7 @@ public class GameMethod {
         queue.start();
     }
 
-    public void drawCard(String deckID, String numberDrawn, ArrayList<Card> hand, Context context, DrawCardCallback callback){
+    public void drawCard(String deckID, String numberDrawn, ArrayList<Card> hand, boolean isPlayer, Context context, DrawCardCallback callback){
         Gson gson = new Gson();
         String drawUrl = "https://www.deckofcardsapi.com/api/deck/" + deckID + "/draw/?count=" + numberDrawn;
 
@@ -65,9 +106,15 @@ public class GameMethod {
                     String suit = card.getSuit();
 
                     hand.add(new Card(code, image, value, suit));
+                    if (isPlayer){
+                        setPlayerSum(updateCardSum(value, getPlayerSum()));
+                    }
+                    // here we have to check how may cars are in hand
+                    else{
+                        setDealerSum(updateCardSum(value, getDealerSum()));
+                    }
                 }
                 callback.onDrawComplete(hand);
-
             }
         }, new Response.ErrorListener() {
             @Override
@@ -82,4 +129,23 @@ public class GameMethod {
         queue.start();
     }
 
+    public void gameResolution(){
+        // method designed for comparing sums and deciding winner
+    }
+
+    private int updateCardSum(String cardValue, int totalSum) {
+        String[] jqk = {"JACK", "QUEEN", "KING"};
+        if (Arrays.asList(jqk).contains(cardValue)){
+            totalSum += 10;
+        } else if (cardValue.equals("ACE")) {
+            if (totalSum < 11){
+                totalSum += 11;
+            } else {
+                totalSum += 1;
+            }
+        } else {
+            totalSum += Integer.parseInt(cardValue);
+        }
+        return totalSum;
+    }
 }
