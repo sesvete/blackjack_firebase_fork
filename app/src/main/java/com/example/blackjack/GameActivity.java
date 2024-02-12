@@ -1,6 +1,5 @@
 package com.example.blackjack;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -16,19 +15,16 @@ import com.android.volley.VolleyError;
 
 import java.util.ArrayList;
 
-// NEED TO ADD CALCULATION!!!!
-
-
 // TODO: Implement database
+
+// TODO: Get player points from database and update them on game end
+
 // TODO: end of game procedures
-// layout can be called hand_list_item
+// TODO: use strings.xml file
 // recycler view will use card view widget look at recyclerV_dn_4_2
 // adapter can be called HandRecViewAdapter
 
-// buttons will have two modes START/HIT; STOP/HOLD
-
 public class GameActivity extends AppCompatActivity {
-
     private RecyclerView recyclerDealerHand, recyclerPlayerHand;
     private ArrayList<Card> dealerHand, playerHand;
     private Button btnStart, btnStop;
@@ -73,14 +69,7 @@ public class GameActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if (btnStart.getText().toString().equals("Start")) {
                     disableButtons();
-                    dealerAdapter = new DealerHandRecViewAdapter(GameActivity.this);
-                    playerAdapter = new PlayerHandRecViewAdapter(GameActivity.this);
-                    dealerHand = new ArrayList<>();
-                    playerHand = new ArrayList<>();
-                    playerAdapter.setPlayerHand(playerHand);
-                    recyclerPlayerHand.setAdapter(playerAdapter);
-                    dealerAdapter.setDealerHand(dealerHand);
-                    recyclerDealerHand.setAdapter(dealerAdapter);
+                    setInitialGameState();
                     // we need to make sure we got the id
                     gameMethod.shuffleDeck(shuffleUrl, GameActivity.this, new GameMethod.ShuffleCallback() {
                         @Override
@@ -106,16 +95,16 @@ public class GameActivity extends AppCompatActivity {
                                     btnStart.setText("Hit");
                                     btnStop.setText("Hold");
                                     enableButtons();
+                                    if (gameMethod.getPlayerSum() == 21) {
+                                        revealDealerSecondCard();
+                                        gameMethod.gameResolution(btnStart, btnStop, GameActivity.this);
+                                    }
                                 }
                                 @Override
                                 public void onDrawError(VolleyError error) {
                                     Toast.makeText(GameActivity.this, "Error", Toast.LENGTH_SHORT).show();
                                 }
                             });
-                            if (gameMethod.getPlayerSum() == 21) {
-                                // reveal hidden card and score
-                                // go to game resoultion
-                            }
                         }
 
                         @Override
@@ -123,10 +112,6 @@ public class GameActivity extends AppCompatActivity {
                             Toast.makeText(GameActivity.this, "error", Toast.LENGTH_SHORT).show();
                         }
                     });
-                    // dealer draws two cards
-                    // player draws two cards
-                    // check points
-                    // text se spremeni v Hit
                 } else if (btnStart.getText().toString().equals("Hit")){
                     gameMethod.drawCard(deckID, "1", playerHand, true, GameActivity.this, new GameMethod.DrawCardCallback() {
                         @Override
@@ -136,8 +121,8 @@ public class GameActivity extends AppCompatActivity {
                             if (gameMethod.getPlayerSum() == 21){
                                 resolveDealerHand();
                             } else if (gameMethod.getPlayerSum() > 21) {
-                                // resolve game
-                                Toast.makeText(GameActivity.this, "game resolution", Toast.LENGTH_SHORT).show();
+                                revealDealerSecondCard();
+                                gameMethod.gameResolution(btnStart, btnStop, GameActivity.this);
                             }
                         }
 
@@ -146,8 +131,6 @@ public class GameActivity extends AppCompatActivity {
                             Toast.makeText(GameActivity.this, "Error", Toast.LENGTH_SHORT).show();
                         }
                     });
-                    // player draws card
-                    // check points
                 } else{
                     Toast.makeText(GameActivity.this, "Error, please restart the application", Toast.LENGTH_SHORT).show();
                 }
@@ -163,22 +146,20 @@ public class GameActivity extends AppCompatActivity {
                     startActivity(stop);
                 } else if (btnStop.getText().toString().equals("Hold")) {
                     resolveDealerHand();
-                    // dealer draws cards
                 } else{
-                    Toast.makeText(GameActivity.this, "Error, please restart the aplication", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(GameActivity.this, "Error, please restart the application", Toast.LENGTH_SHORT).show();
                 }
             }
         });
     }
 
     private void resolveDealerHand(){
-        dealerAdapter.revealSecondCard();
-        txtDealerSumSum.setText(String.valueOf(gameMethod.getDealerSum()));
+        revealDealerSecondCard();
         if ((gameMethod.getDealerSum() < gameMethod.getPlayerSum()) && gameMethod.getDealerSum() < 18){
             drawCardDealer();
         }
         else {
-            // game resoultion
+            gameMethod.gameResolution(btnStart, btnStop, GameActivity.this);
         }
     }
 
@@ -186,14 +167,12 @@ public class GameActivity extends AppCompatActivity {
         gameMethod.drawCard(deckID, "1", dealerHand, false, GameActivity.this, new GameMethod.DrawCardCallback() {
             @Override
             public void onDrawComplete(ArrayList<Card> hand) {
-                recyclerDealerHand.setAdapter(dealerAdapter);
-                txtDealerSumSum.setText(String.valueOf(gameMethod.getDealerSum()));
+                revealDealerSecondCard();
                 if ((gameMethod.getDealerSum() < gameMethod.getPlayerSum()) && gameMethod.getDealerSum() < 18){
                     drawCardDealer();
                 }
                 else{
-                    // we go to game resoulution
-                    Toast.makeText(GameActivity.this, "game resolution", Toast.LENGTH_SHORT).show();
+                    gameMethod.gameResolution(btnStart, btnStop, GameActivity.this);
                 }
             }
             @Override
@@ -202,6 +181,10 @@ public class GameActivity extends AppCompatActivity {
             }
         });
     }
+    private void revealDealerSecondCard() {
+        dealerAdapter.revealSecondCard();
+        txtDealerSumSum.setText(String.valueOf(gameMethod.getDealerSum()));
+    }
     private void enableButtons() {
         btnStart.setEnabled(true);
         btnStop.setEnabled(true);
@@ -209,5 +192,18 @@ public class GameActivity extends AppCompatActivity {
     private void disableButtons() {
         btnStart.setEnabled(false);
         btnStop.setEnabled(false);
+    }
+    private void setInitialGameState(){
+        gameMethod.setPlayerSum(0);
+        gameMethod.setDealerSum(0);
+        gameMethod.setDealerRevealedValue(0);
+        dealerAdapter = new DealerHandRecViewAdapter(GameActivity.this);
+        playerAdapter = new PlayerHandRecViewAdapter(GameActivity.this);
+        dealerHand = new ArrayList<>();
+        playerHand = new ArrayList<>();
+        playerAdapter.setPlayerHand(playerHand);
+        recyclerPlayerHand.setAdapter(playerAdapter);
+        dealerAdapter.setDealerHand(dealerHand);
+        recyclerDealerHand.setAdapter(dealerAdapter);
     }
 }

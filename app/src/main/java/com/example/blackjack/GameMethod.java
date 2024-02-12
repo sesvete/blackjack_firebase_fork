@@ -1,7 +1,10 @@
 package com.example.blackjack;
 
 import android.content.Context;
+import android.widget.Button;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -73,7 +76,6 @@ public class GameMethod {
             public void onResponse(String response) {
                 Deck deck = gson.fromJson(response, Deck.class);
                 String ID = deck.getDeck_id();
-                // Pass the deckID to the callback
                 callback.onShuffleComplete(ID);
             }
         }, new Response.ErrorListener() {
@@ -132,8 +134,25 @@ public class GameMethod {
         queue.start();
     }
 
-    public void gameResolution(){
-        // method designed for comparing sums and deciding winner
+    public void gameResolution(@NonNull Button btnStart, @NonNull Button btnStop, Context context){
+        if (playerSum == dealerSum) {
+            Toast.makeText(context, "Izenačeno", Toast.LENGTH_SHORT).show();
+        } else if (playerSum == 21 && (playerSum != dealerSum) ) {
+            Toast.makeText(context, "Imaš Blackjack", Toast.LENGTH_SHORT).show();
+        } else if (dealerSum == 21 && (playerSum != dealerSum) ) {
+            Toast.makeText(context, "Dealer ima Blackjack", Toast.LENGTH_SHORT).show();
+        } else if (playerSum > 21) {
+            Toast.makeText(context, "Zgubil si", Toast.LENGTH_SHORT).show();
+        } else if (dealerSum > 21) {
+            Toast.makeText(context, "Zmagal si", Toast.LENGTH_SHORT).show();
+        } else if (playerSum > dealerSum) {
+            Toast.makeText(context, "Zmagal si", Toast.LENGTH_SHORT).show();
+        } else if (playerSum < dealerSum) {
+            Toast.makeText(context, "Zgubil si", Toast.LENGTH_SHORT).show();
+        }
+        btnStart.setText("Start");
+        btnStop.setText("Stop");
+        // update points and database
     }
 
     private int updateCardSum(String cardValue, int totalSum) {
