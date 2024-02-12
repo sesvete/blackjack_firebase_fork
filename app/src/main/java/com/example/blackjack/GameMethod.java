@@ -111,6 +111,9 @@ public class GameMethod {
                     }
                     // here we have to check how may cars are in hand
                     else{
+                        if (hand.size() == 1){
+                            setDealerRevealedValue(updateCardSum(value, getDealerSum()));
+                        }
                         setDealerSum(updateCardSum(value, getDealerSum()));
                     }
                 }

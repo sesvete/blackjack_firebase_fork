@@ -1,5 +1,6 @@
 package com.example.blackjack;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -20,8 +21,6 @@ import java.util.ArrayList;
 
 // TODO: Implement database
 // TODO: end of game procedures
-
-// TODO: Dealers second card needs to be hidden
 // layout can be called hand_list_item
 // recycler view will use card view widget look at recyclerV_dn_4_2
 // adapter can be called HandRecViewAdapter
@@ -56,19 +55,9 @@ public class GameActivity extends AppCompatActivity {
 
         recyclerDealerHand = findViewById(R.id.recyclerDealerHand);
         recyclerPlayerHand = findViewById(R.id.recyclerPlayerHand);
-
-        dealerAdapter = new DealerHandRecViewAdapter(this);
-        playerAdapter = new PlayerHandRecViewAdapter(this);
-        dealerHand = new ArrayList<>();
-        playerHand = new ArrayList<>();
-
         gameMethod = new GameMethod(0, 0, 0);
 
         shuffleUrl = "https://www.deckofcardsapi.com/api/deck/new/shuffle/?deck_count=1";
-        playerAdapter.setPlayerHand(playerHand);
-        recyclerPlayerHand.setAdapter(playerAdapter);
-        dealerAdapter.setDealerHand(dealerHand);
-        recyclerDealerHand.setAdapter(dealerAdapter);
 
         recyclerDealerHand.setLayoutManager(new GridLayoutManager(this, 4));
         recyclerPlayerHand.setLayoutManager(new GridLayoutManager(this, 4));
@@ -83,6 +72,15 @@ public class GameActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if (btnStart.getText().toString().equals("Start")) {
+                    disableButtons();
+                    dealerAdapter = new DealerHandRecViewAdapter(GameActivity.this);
+                    playerAdapter = new PlayerHandRecViewAdapter(GameActivity.this);
+                    dealerHand = new ArrayList<>();
+                    playerHand = new ArrayList<>();
+                    playerAdapter.setPlayerHand(playerHand);
+                    recyclerPlayerHand.setAdapter(playerAdapter);
+                    dealerAdapter.setDealerHand(dealerHand);
+                    recyclerDealerHand.setAdapter(dealerAdapter);
                     // we need to make sure we got the id
                     gameMethod.shuffleDeck(shuffleUrl, GameActivity.this, new GameMethod.ShuffleCallback() {
                         @Override
@@ -104,17 +102,16 @@ public class GameActivity extends AppCompatActivity {
                                 @Override
                                 public void onDrawComplete(ArrayList<Card> hand) {
                                     recyclerDealerHand.setAdapter(dealerAdapter);
-                                    txtDealerSumSum.setText(String.valueOf(gameMethod.getDealerSum()));
-
+                                    txtDealerSumSum.setText(String.valueOf(gameMethod.getDealerRevealedValue()));
+                                    btnStart.setText("Hit");
+                                    btnStop.setText("Hold");
+                                    enableButtons();
                                 }
-
                                 @Override
                                 public void onDrawError(VolleyError error) {
                                     Toast.makeText(GameActivity.this, "Error", Toast.LENGTH_SHORT).show();
                                 }
                             });
-                            btnStart.setText("Hit");
-                            btnStop.setText("Hold");
                             if (gameMethod.getPlayerSum() == 21) {
                                 // reveal hidden card and score
                                 // go to game resoultion
@@ -175,25 +172,42 @@ public class GameActivity extends AppCompatActivity {
     }
 
     private void resolveDealerHand(){
+        dealerAdapter.revealSecondCard();
+        txtDealerSumSum.setText(String.valueOf(gameMethod.getDealerSum()));
         if ((gameMethod.getDealerSum() < gameMethod.getPlayerSum()) && gameMethod.getDealerSum() < 18){
-            gameMethod.drawCard(deckID, "1", dealerHand, false, GameActivity.this, new GameMethod.DrawCardCallback() {
-                @Override
-                public void onDrawComplete(ArrayList<Card> hand) {
-                    recyclerDealerHand.setAdapter(dealerAdapter);
-                    txtDealerSumSum.setText(String.valueOf(gameMethod.getDealerSum()));
-                    if ((gameMethod.getDealerSum() < gameMethod.getPlayerSum()) && gameMethod.getDealerSum() < 18){
-                        resolveDealerHand();
-                    }
-                    else{
-                        // we go to game resoulution
-                        Toast.makeText(GameActivity.this, "game resolution", Toast.LENGTH_SHORT).show();
-                    }
-                }
-                @Override
-                public void onDrawError(VolleyError error) {
-                    Toast.makeText(GameActivity.this, "Error", Toast.LENGTH_SHORT).show();
-                }
-            });
+            drawCardDealer();
         }
+        else {
+            // game resoultion
+        }
+    }
+
+    private void drawCardDealer() {
+        gameMethod.drawCard(deckID, "1", dealerHand, false, GameActivity.this, new GameMethod.DrawCardCallback() {
+            @Override
+            public void onDrawComplete(ArrayList<Card> hand) {
+                recyclerDealerHand.setAdapter(dealerAdapter);
+                txtDealerSumSum.setText(String.valueOf(gameMethod.getDealerSum()));
+                if ((gameMethod.getDealerSum() < gameMethod.getPlayerSum()) && gameMethod.getDealerSum() < 18){
+                    drawCardDealer();
+                }
+                else{
+                    // we go to game resoulution
+                    Toast.makeText(GameActivity.this, "game resolution", Toast.LENGTH_SHORT).show();
+                }
+            }
+            @Override
+            public void onDrawError(VolleyError error) {
+                Toast.makeText(GameActivity.this, "Error", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+    private void enableButtons() {
+        btnStart.setEnabled(true);
+        btnStop.setEnabled(true);
+    }
+    private void disableButtons() {
+        btnStart.setEnabled(false);
+        btnStop.setEnabled(false);
     }
 }
