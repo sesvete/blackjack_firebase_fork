@@ -118,6 +118,7 @@ public class GameActivity extends AppCompatActivity {
                         }
                     });
                 } else if (btnStart.getText().toString().equals("Hit")){
+                    disableButtons();
                     gameMethod.drawCard(deckID, "1", playerHand, true, GameActivity.this, new GameMethod.DrawCardCallback() {
                         @Override
                         public void onDrawComplete(ArrayList<Card> hand) {
@@ -129,10 +130,12 @@ public class GameActivity extends AppCompatActivity {
                                 revealDealerSecondCard();
                                 gameMethod.gameResolution(btnStart, btnStop, GameActivity.this, id, txtTotalPoints);
                             }
+                            enableButtons();
                         }
 
                         @Override
                         public void onDrawError(VolleyError error) {
+                            enableButtons();
                             Toast.makeText(GameActivity.this, "Error", Toast.LENGTH_SHORT).show();
                         }
                     });
@@ -150,6 +153,7 @@ public class GameActivity extends AppCompatActivity {
                     Intent stop = new Intent(GameActivity.this, LoginActivity.class);
                     startActivity(stop);
                 } else if (btnStop.getText().toString().equals("Hold")) {
+                    disableButtons();
                     resolveDealerHand();
                 } else{
                     Toast.makeText(GameActivity.this, "Error, please restart the application", Toast.LENGTH_SHORT).show();
@@ -172,11 +176,14 @@ public class GameActivity extends AppCompatActivity {
         gameMethod.drawCard(deckID, "1", dealerHand, false, GameActivity.this, new GameMethod.DrawCardCallback() {
             @Override
             public void onDrawComplete(ArrayList<Card> hand) {
-                revealDealerSecondCard();
                 if ((gameMethod.getDealerSum() < gameMethod.getPlayerSum()) && gameMethod.getDealerSum() < 18){
+                    dealerAdapter.setDealerHand(dealerHand);
+                    txtDealerSumSum.setText(String.valueOf(gameMethod.getDealerSum()));
                     drawCardDealer();
                 }
                 else{
+                    dealerAdapter.setDealerHand(dealerHand);
+                    txtDealerSumSum.setText(String.valueOf(gameMethod.getDealerSum()));
                     gameMethod.gameResolution(btnStart, btnStop, GameActivity.this, id, txtTotalPoints);
                 }
             }

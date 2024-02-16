@@ -162,6 +162,8 @@ public class GameMethod {
         }
         btnStart.setText("Start");
         btnStop.setText("Stop");
+        btnStart.setEnabled(true);
+        btnStop.setEnabled(true);
         // update points and database
     }
 
