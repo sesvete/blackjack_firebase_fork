@@ -25,11 +25,12 @@ import java.util.ArrayList;
 // adapter can be called HandRecViewAdapter
 
 public class GameActivity extends AppCompatActivity {
+    private int id;
     private RecyclerView recyclerDealerHand, recyclerPlayerHand;
     private ArrayList<Card> dealerHand, playerHand;
     private Button btnStart, btnStop;
     private String shuffleUrl, deckID;
-    private TextView txtPlayerSumSum, txtDealerSumSum;
+    private TextView txtTotalPoints, txtPlayerSumSum, txtDealerSumSum;
     private DealerHandRecViewAdapter dealerAdapter;
     private PlayerHandRecViewAdapter playerAdapter;
     private GameMethod gameMethod;
@@ -40,12 +41,19 @@ public class GameActivity extends AppCompatActivity {
         setContentView(R.layout.activity_game);
         Intent intent = getIntent();
         if (intent != null){
-            int id = intent.getIntExtra("id", 100);
+            id = intent.getIntExtra("id", 100);
         }
         else {
             Toast.makeText(this, "Couldn't get user data restart application and log in again", Toast.LENGTH_SHORT).show();
 
         }
+
+        DBHelper dbHelper = new DBHelper(GameActivity.this);
+
+        txtTotalPoints = findViewById(R.id.txtTotalPoints);
+
+        txtTotalPoints.setText(String.valueOf(dbHelper.getPointsFromDB(id)));
+
         btnStart = findViewById(R.id.btnStart);
         btnStop = findViewById(R.id.btnStop);
 

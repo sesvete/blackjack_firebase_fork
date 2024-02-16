@@ -94,4 +94,22 @@ public class DBHelper extends SQLiteOpenHelper {
             return false;
         }
     }
+
+    public int getPointsFromDB (int id) {
+        int points;
+        String query = "SELECT " + USER_POINTS + " FROM " + USERS_TABLE + " WHERE " + USER_ID + " = " + id;
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(query, null);
+        if (cursor.moveToFirst()) {
+            do {
+                points = cursor.getInt(0);
+            }while (cursor.moveToNext());
+        }
+        else {
+            points = 0;
+        }
+        cursor.close();
+        db.close();
+        return points;
+    }
 }
