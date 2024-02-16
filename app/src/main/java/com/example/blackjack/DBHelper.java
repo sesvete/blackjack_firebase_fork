@@ -118,4 +118,11 @@ public class DBHelper extends SQLiteOpenHelper {
         String query = "UPDATE " + USERS_TABLE + " SET " + USER_POINTS + " = " + points + " WHERE " + USER_ID + " = " + id;
         db.execSQL(query);
     }
+
+    public void deleteFromDB(int id){
+        SQLiteDatabase db = this.getWritableDatabase();
+        String query = "DELETE FROM " + USERS_TABLE + " WHERE " + USER_ID + " = " + id;
+
+        db.execSQL(query);
+    }
 }

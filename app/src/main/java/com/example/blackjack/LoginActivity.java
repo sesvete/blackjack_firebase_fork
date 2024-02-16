@@ -15,28 +15,10 @@ import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
 
-// responsible for loging in
-// as of now buttons will sipmly lead to new screans
-
-// for pictures get a picture of an ac anc a king or smth
-
-// ne bo gesla!
-// začetni sazlon anj vsebuje seznam z imeni uporabnikov in njihovimi točkami
-// uporabnika se izberee s klikom naj
-// poleg tega naj bo še gum za ustvarjanje novega uporabnika, ki pelje na NEWUSERactivity
-
-// podatkovna baza
-// Players.sql (or. smth)
-// stolpci id (int primary key autoincrement), uIme (text / string), tocke (int)
-
 // playing card dimensions height: 89mm, width 64mm
 // 1:1,391
 
-
-// TODO: watch imageview tutorial
-
 // TODO: FIX THEME
-// TODO: delete entry from database
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -63,8 +45,6 @@ public class LoginActivity extends AppCompatActivity {
 
         userList = dbHelper.getList();
 
-        // for testing manual insertion
-
         UserRecViewAdapter adapter = new UserRecViewAdapter();
         adapter.setUserList(userList);
         recViewLogin.setAdapter(adapter);
@@ -74,12 +54,7 @@ public class LoginActivity extends AppCompatActivity {
         adapter.setOnItemClickListener(new UserRecViewAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-                // for now we just lead to the game activity
-
-                // for now we just check if it passes the user id
-
                 int user_id = userList.get(position).getId();
-
                 Intent intent = new Intent(LoginActivity.this, GameActivity.class);
                 intent.putExtra("id", user_id);
                 startActivity(intent);
@@ -89,17 +64,19 @@ public class LoginActivity extends AppCompatActivity {
         adapter.setOnItemLongClickListener(new UserRecViewAdapter.OnItemLongClickListener() {
             @Override
             public void onItemLongClick(View view, int position) {
-                Toast.makeText(LoginActivity.this, "id: " + String.valueOf(userList.get(position).getId()) +
-                        ", Username: " + userList.get(position).getUserName() + ", points: " + String.valueOf(userList.get(position).getPoints()),
-                        Toast.LENGTH_SHORT).show();
+                // delete user
+                int user_id = userList.get(position).getId();
+                dbHelper.deleteFromDB(user_id);
+                adapter.setUserList(dbHelper.getList());
+
+                Toast.makeText(LoginActivity.this, userList.get(position).getUserName() + " was deleted", Toast.LENGTH_SHORT).show();
+
             }
         });
-
 
         btnNewUser.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 Intent intent = new Intent(LoginActivity.this, NewUserActivity.class);
                 startActivity(intent);
             }

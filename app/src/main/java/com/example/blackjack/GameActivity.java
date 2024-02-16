@@ -83,7 +83,7 @@ public class GameActivity extends AppCompatActivity {
                             gameMethod.drawCard(deckID, "2", playerHand, true, GameActivity.this, new GameMethod.DrawCardCallback() {
                                 @Override
                                 public void onDrawComplete(ArrayList<Card> hand) {
-                                    recyclerPlayerHand.setAdapter(playerAdapter);
+                                    playerAdapter.setPlayerHand(playerHand);
                                     txtPlayerSumSum.setText(String.valueOf(gameMethod.getPlayerSum()));
                                 }
 
@@ -95,7 +95,7 @@ public class GameActivity extends AppCompatActivity {
                             gameMethod.drawCard(deckID, "2", dealerHand, false, GameActivity.this, new GameMethod.DrawCardCallback() {
                                 @Override
                                 public void onDrawComplete(ArrayList<Card> hand) {
-                                    recyclerDealerHand.setAdapter(dealerAdapter);
+                                    dealerAdapter.setDealerHand(dealerHand);
                                     txtDealerSumSum.setText(String.valueOf(gameMethod.getDealerRevealedValue()));
                                     btnStart.setText("Hit");
                                     btnStop.setText("Hold");
@@ -121,7 +121,7 @@ public class GameActivity extends AppCompatActivity {
                     gameMethod.drawCard(deckID, "1", playerHand, true, GameActivity.this, new GameMethod.DrawCardCallback() {
                         @Override
                         public void onDrawComplete(ArrayList<Card> hand) {
-                            recyclerPlayerHand.setAdapter(playerAdapter);
+                            playerAdapter.setPlayerHand(playerHand);
                             txtPlayerSumSum.setText(String.valueOf(gameMethod.getPlayerSum()));
                             if (gameMethod.getPlayerSum() == 21){
                                 resolveDealerHand();
