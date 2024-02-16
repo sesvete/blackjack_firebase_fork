@@ -15,17 +15,13 @@ import com.android.volley.VolleyError;
 
 import java.util.ArrayList;
 
-// TODO: Implement database
-
-// TODO: Get player points from database and update them on game end
-
 // TODO: end of game procedures
 // TODO: use strings.xml file
 // recycler view will use card view widget look at recyclerV_dn_4_2
 // adapter can be called HandRecViewAdapter
 
 public class GameActivity extends AppCompatActivity {
-    private int id;
+    private int id, playerPoints;
     private RecyclerView recyclerDealerHand, recyclerPlayerHand;
     private ArrayList<Card> dealerHand, playerHand;
     private Button btnStart, btnStop;
@@ -52,14 +48,15 @@ public class GameActivity extends AppCompatActivity {
 
         txtTotalPoints = findViewById(R.id.txtTotalPoints);
 
-        txtTotalPoints.setText(String.valueOf(dbHelper.getPointsFromDB(id)));
+        playerPoints = dbHelper.getPointsFromDB(id);
+        txtTotalPoints.setText(String.valueOf(playerPoints));
 
         btnStart = findViewById(R.id.btnStart);
         btnStop = findViewById(R.id.btnStop);
 
         recyclerDealerHand = findViewById(R.id.recyclerDealerHand);
         recyclerPlayerHand = findViewById(R.id.recyclerPlayerHand);
-        gameMethod = new GameMethod(0, 0, 0);
+        gameMethod = new GameMethod(0, 0, 0, playerPoints);
 
         shuffleUrl = "https://www.deckofcardsapi.com/api/deck/new/shuffle/?deck_count=1";
 
@@ -105,7 +102,7 @@ public class GameActivity extends AppCompatActivity {
                                     enableButtons();
                                     if (gameMethod.getPlayerSum() == 21) {
                                         revealDealerSecondCard();
-                                        gameMethod.gameResolution(btnStart, btnStop, GameActivity.this);
+                                        gameMethod.gameResolution(btnStart, btnStop, GameActivity.this, id, txtTotalPoints);
                                     }
                                 }
                                 @Override
@@ -130,7 +127,7 @@ public class GameActivity extends AppCompatActivity {
                                 resolveDealerHand();
                             } else if (gameMethod.getPlayerSum() > 21) {
                                 revealDealerSecondCard();
-                                gameMethod.gameResolution(btnStart, btnStop, GameActivity.this);
+                                gameMethod.gameResolution(btnStart, btnStop, GameActivity.this, id, txtTotalPoints);
                             }
                         }
 
@@ -167,7 +164,7 @@ public class GameActivity extends AppCompatActivity {
             drawCardDealer();
         }
         else {
-            gameMethod.gameResolution(btnStart, btnStop, GameActivity.this);
+            gameMethod.gameResolution(btnStart, btnStop, GameActivity.this, id, txtTotalPoints);
         }
     }
 
@@ -180,7 +177,7 @@ public class GameActivity extends AppCompatActivity {
                     drawCardDealer();
                 }
                 else{
-                    gameMethod.gameResolution(btnStart, btnStop, GameActivity.this);
+                    gameMethod.gameResolution(btnStart, btnStop, GameActivity.this, id, txtTotalPoints);
                 }
             }
             @Override

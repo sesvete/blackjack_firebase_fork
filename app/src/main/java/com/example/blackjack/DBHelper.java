@@ -38,7 +38,7 @@ public class DBHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues cv = new ContentValues();
 
-        cv.put (USER_NAME, user.getUserName());
+        cv.put(USER_NAME, user.getUserName());
         cv.put(USER_POINTS, user.getPoints());
 
         long insert = db.insert(USERS_TABLE, null, cv);
@@ -111,5 +111,11 @@ public class DBHelper extends SQLiteOpenHelper {
         cursor.close();
         db.close();
         return points;
+    }
+
+    public void savePointsToDB (int points, int id) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        String query = "UPDATE " + USERS_TABLE + " SET " + USER_POINTS + " = " + points + " WHERE " + USER_ID + " = " + id;
+        db.execSQL(query);
     }
 }

@@ -2,6 +2,7 @@ package com.example.blackjack;
 
 import android.content.Context;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -18,21 +19,17 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-// TODO: Check for total sum before drawing card
-// TODO: hide second card drawn by dealer
-
-// for the image we will probably need to
-
 public class GameMethod {
-
     private int playerSum;
     private int dealerSum;
     private int dealerRevealedValue;
+    private int playerPoints;
 
-    public GameMethod(int playerSum, int dealerSum, int dealerRevealedValue) {
+    public GameMethod(int playerSum, int dealerSum, int dealerRevealedValue, int playerPoints) {
         this.playerSum = playerSum;
         this.dealerSum = dealerSum;
         this.dealerRevealedValue = dealerRevealedValue;
+        this.playerPoints = playerPoints;
     }
 
     public int getPlayerSum() {
@@ -57,6 +54,13 @@ public class GameMethod {
 
     public void setDealerRevealedValue(int dealerRevealedValue) {
         this.dealerRevealedValue = dealerRevealedValue;
+    }
+    public int getPlayerPoints() {
+        return playerPoints;
+    }
+
+    public void setPlayerPoints(int playerPoints) {
+        this.playerPoints = playerPoints;
     }
 
     public interface ShuffleCallback {
@@ -134,21 +138,27 @@ public class GameMethod {
         queue.start();
     }
 
-    public void gameResolution(@NonNull Button btnStart, @NonNull Button btnStop, Context context){
+    public void gameResolution(@NonNull Button btnStart, @NonNull Button btnStop, Context context, int id, TextView txtTotalPoints){
         if (playerSum == dealerSum) {
             Toast.makeText(context, "Izenačeno", Toast.LENGTH_SHORT).show();
         } else if (playerSum == 21 && (playerSum != dealerSum) ) {
             Toast.makeText(context, "Imaš Blackjack", Toast.LENGTH_SHORT).show();
+            updatePoints(true, context, id, txtTotalPoints);
         } else if (dealerSum == 21 && (playerSum != dealerSum) ) {
             Toast.makeText(context, "Dealer ima Blackjack", Toast.LENGTH_SHORT).show();
+            updatePoints(false, context, id, txtTotalPoints);
         } else if (playerSum > 21) {
             Toast.makeText(context, "Zgubil si", Toast.LENGTH_SHORT).show();
+            updatePoints(false, context, id, txtTotalPoints);
         } else if (dealerSum > 21) {
             Toast.makeText(context, "Zmagal si", Toast.LENGTH_SHORT).show();
+            updatePoints(true, context, id, txtTotalPoints);
         } else if (playerSum > dealerSum) {
             Toast.makeText(context, "Zmagal si", Toast.LENGTH_SHORT).show();
+            updatePoints(true, context, id, txtTotalPoints);
         } else if (playerSum < dealerSum) {
             Toast.makeText(context, "Zgubil si", Toast.LENGTH_SHORT).show();
+            updatePoints(false, context, id, txtTotalPoints);
         }
         btnStart.setText("Start");
         btnStop.setText("Stop");
@@ -169,5 +179,15 @@ public class GameMethod {
             totalSum += Integer.parseInt(cardValue);
         }
         return totalSum;
+    }
+    private void updatePoints(boolean playerWon, Context context, int id, TextView txtTotalPoints) {
+        DBHelper dbHelper = new DBHelper(context);
+        if (playerWon){
+            setPlayerPoints(getPlayerPoints() + 10);
+        }else {
+            setPlayerPoints(getPlayerPoints() - 10);
+        }
+        dbHelper.savePointsToDB(getPlayerPoints(), id);
+        txtTotalPoints.setText(String.valueOf(getPlayerPoints()));
     }
 }
