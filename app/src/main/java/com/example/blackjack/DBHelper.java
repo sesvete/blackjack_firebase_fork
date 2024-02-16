@@ -38,7 +38,7 @@ public class DBHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues cv = new ContentValues();
 
-        cv.put (USER_NAME, user.getUserName());
+        cv.put(USER_NAME, user.getUserName());
         cv.put(USER_POINTS, user.getPoints());
 
         long insert = db.insert(USERS_TABLE, null, cv);
@@ -93,5 +93,36 @@ public class DBHelper extends SQLiteOpenHelper {
             db.close();
             return false;
         }
+    }
+
+    public int getPointsFromDB (int id) {
+        int points;
+        String query = "SELECT " + USER_POINTS + " FROM " + USERS_TABLE + " WHERE " + USER_ID + " = " + id;
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(query, null);
+        if (cursor.moveToFirst()) {
+            do {
+                points = cursor.getInt(0);
+            }while (cursor.moveToNext());
+        }
+        else {
+            points = 0;
+        }
+        cursor.close();
+        db.close();
+        return points;
+    }
+
+    public void savePointsToDB (int points, int id) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        String query = "UPDATE " + USERS_TABLE + " SET " + USER_POINTS + " = " + points + " WHERE " + USER_ID + " = " + id;
+        db.execSQL(query);
+    }
+
+    public void deleteFromDB(int id){
+        SQLiteDatabase db = this.getWritableDatabase();
+        String query = "DELETE FROM " + USERS_TABLE + " WHERE " + USER_ID + " = " + id;
+
+        db.execSQL(query);
     }
 }

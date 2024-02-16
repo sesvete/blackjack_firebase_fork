@@ -19,7 +19,7 @@ import java.util.ArrayList;
 public class DealerHandRecViewAdapter extends RecyclerView.Adapter<DealerHandRecViewAdapter.ViewHolder> {
 
     private ArrayList<Card> dealerHand = new ArrayList<>();
-
+    private boolean revealSecondCard = false;
     private Context context;
 
     public DealerHandRecViewAdapter(Context context) {
@@ -29,7 +29,6 @@ public class DealerHandRecViewAdapter extends RecyclerView.Adapter<DealerHandRec
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.hand_list_item, parent, false);
         ViewHolder holder = new ViewHolder(view);
         return holder;
@@ -37,13 +36,11 @@ public class DealerHandRecViewAdapter extends RecyclerView.Adapter<DealerHandRec
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        /*
-        if (position == 1){
+        if (position == 1 && !revealSecondCard) {
             Glide.with(context).asBitmap().load(dealerHand.get(position).getCardBack()).into(holder.imgHandCard);
-        } else {
-            */
+        }else {
             Glide.with(context).asBitmap().load(dealerHand.get(position).getImage()).into(holder.imgHandCard);
-        //}
+        }
     }
 
     @Override
@@ -54,6 +51,11 @@ public class DealerHandRecViewAdapter extends RecyclerView.Adapter<DealerHandRec
     public void setDealerHand (ArrayList<Card> dealerHand){
         this.dealerHand = dealerHand;
         notifyDataSetChanged();
+    }
+
+    public void revealSecondCard() {
+        revealSecondCard = true;
+        notifyItemChanged(1);
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder{
