@@ -153,7 +153,6 @@ public class GameActivity extends AppCompatActivity {
                     Intent stop = new Intent(GameActivity.this, LoginActivity.class);
                     startActivity(stop);
                 } else if (btnStop.getText().toString().equals("Hold")) {
-                    disableButtons();
                     resolveDealerHand();
                 } else{
                     Toast.makeText(GameActivity.this, "Error, please restart the application", Toast.LENGTH_SHORT).show();
@@ -194,6 +193,7 @@ public class GameActivity extends AppCompatActivity {
         });
     }
     private void revealDealerSecondCard() {
+        disableButtons();
         dealerAdapter.revealSecondCard();
         txtDealerSumSum.setText(String.valueOf(gameMethod.getDealerSum()));
     }
