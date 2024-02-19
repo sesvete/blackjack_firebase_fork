@@ -8,4 +8,9 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name ="red_back">#aa1417</color>
+    <color name="table_green">#024f01</color>
+    <color name="text_color">#dee0de</color>
+    <color name="text_color_hint">#a0a0a0</color>
+    <color name="orange_primary">#c1570b</color>
+    <color name="orange_secondary">#ed6200</color>
 </resources>
