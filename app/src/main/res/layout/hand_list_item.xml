@@ -2,24 +2,24 @@
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/layoutParentHand"
-    android:layout_width="match_parent"
+    android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    app:cardCornerRadius="10dp"
-    app:cardElevation="10dp">
+    app:cardCornerRadius="5dp"
+    android:layout_marginBottom="5dp"
+    >
     
     <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:gravity="center"
         >
+
         <ImageView
             android:id="@+id/imgHandCard"
             android:layout_width="79dp"
             android:layout_height="110dp"
-            android:src="@drawable/ic_launcher_background"
-            android:layout_margin="5dp"
             android:contentDescription="@string/card_image"
-            />
+            android:src="@drawable/ic_launcher_background" />
     </RelativeLayout>
 
 </androidx.cardview.widget.CardView>

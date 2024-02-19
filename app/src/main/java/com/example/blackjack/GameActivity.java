@@ -17,8 +17,7 @@ import java.util.ArrayList;
 
 // TODO: end of game procedures
 // TODO: use strings.xml file
-// recycler view will use card view widget look at recyclerV_dn_4_2
-// adapter can be called HandRecViewAdapter
+// TODO: fix README
 
 public class GameActivity extends AppCompatActivity {
     private int id, playerPoints;
@@ -209,6 +208,8 @@ public class GameActivity extends AppCompatActivity {
         gameMethod.setPlayerSum(0);
         gameMethod.setDealerSum(0);
         gameMethod.setDealerRevealedValue(0);
+        txtPlayerSumSum.setText(String.valueOf(gameMethod.getPlayerSum()));
+        txtDealerSumSum.setText(String.valueOf(gameMethod.getDealerSum()));
         dealerAdapter = new DealerHandRecViewAdapter(GameActivity.this);
         playerAdapter = new PlayerHandRecViewAdapter(GameActivity.this);
         dealerHand = new ArrayList<>();
