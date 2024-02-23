@@ -3,16 +3,16 @@ plugins {
 }
 
 android {
-    namespace = "com.example.blackjack"
+    namespace = "com.example.blackjackFirebase"
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "com.example.blackjack"
+        applicationId = "com.example.blackjackFirebase"
         minSdk = 24
         targetSdk = 34
         versionCode = 1
         versionName = "1.0.0"
-        setProperty("archivesBaseName", "Blackjack_v$versionName")
+        setProperty("archivesBaseName", "Blackjack_Firebase_v$versionName")
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }

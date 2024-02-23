@@ -1,4 +1,4 @@
-package com.example.blackjack;
+package com.example.blackjackFirebase;
 
 import android.view.LayoutInflater;
 import android.view.View;

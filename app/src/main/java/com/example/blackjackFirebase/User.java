@@ -1,4 +1,4 @@
-package com.example.blackjack;
+package com.example.blackjackFirebase;
 
 public class User {
     int id;
