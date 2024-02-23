@@ -2,6 +2,8 @@
 
 Written in Java, using Android dev studio
 
+App uses Firebase for authentication and cloud storage
+
 Cards are acquired through the deck of cards api:
 https://www.deckofcardsapi.com/
 

@@ -13,5 +13,5 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "Blackjack"
+rootProject.name = "blackjack_firebase_fork"
 include(":app")
