@@ -53,10 +53,11 @@ public class SignInActivity extends AppCompatActivity {
         if (result.getResultCode() == RESULT_OK) {
             // successfully signed in
             FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-            Toast.makeText(this, "Sig in succesfull", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Sign in succesfull", Toast.LENGTH_SHORT).show();
         }
         else{
             //javi napako
+            Toast.makeText(this, "Error signing-in", Toast.LENGTH_SHORT).show();
         }
     }
 }
