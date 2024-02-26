@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "227414500165",
+    "project_id": "blackjack-firebase-fork",
+    "storage_bucket": "blackjack-firebase-fork.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:227414500165:android:564104beb9d4aef120542c",
+        "android_client_info": {
+          "package_name": "com.example.blackjackFirebase"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "227414500165-54tqfrqn9siiap7avsjk218ma64ihes8.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.blackjackFirebase",
+            "certificate_hash": "09a9e89dff3fbb3128bd7a30ffbc5492811166ee"
+          }
+        },
+        {
+          "client_id": "227414500165-pi8uoqsee1i3o676v8nks5e9k2esiv8s.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAoah920L6oO9_vJJOtFJ7QQXZ6Xk1O5R0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "227414500165-2ji8j37bmkgjlgdibe38l43q5mvhv70e.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
