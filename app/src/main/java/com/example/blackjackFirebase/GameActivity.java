@@ -24,7 +24,7 @@ public class GameActivity extends AppCompatActivity {
     private RecyclerView recyclerDealerHand, recyclerPlayerHand;
     private ArrayList<Card> dealerHand, playerHand;
     private Button btnStart, btnStop;
-    private String shuffleUrl, deckID;
+    private String shuffleUrl, deckID, Uid;
     private TextView txtTotalPoints, txtPlayerSumSum, txtDealerSumSum;
     private DealerHandRecViewAdapter dealerAdapter;
     private PlayerHandRecViewAdapter playerAdapter;
@@ -42,18 +42,20 @@ public class GameActivity extends AppCompatActivity {
         setContentView(R.layout.activity_game);
         Intent intent = getIntent();
         if (intent != null){
-            id = intent.getIntExtra("id", 100);
+            Uid = intent.getStringExtra("Uid");
+            Toast.makeText(this, Uid, Toast.LENGTH_SHORT).show();
         }
         else {
             Toast.makeText(this, "Couldn't get user data restart application and log in again", Toast.LENGTH_SHORT).show();
 
         }
+        id = 0;
 
-        DBHelper dbHelper = new DBHelper(GameActivity.this);
+        //DBHelper dbHelper = new DBHelper(GameActivity.this);
 
         txtTotalPoints = findViewById(R.id.txtTotalPoints);
 
-        playerPoints = dbHelper.getPointsFromDB(id);
+        //playerPoints = dbHelper.getPointsFromDB(id);
         txtTotalPoints.setText(String.valueOf(playerPoints));
 
         btnStart = findViewById(R.id.btnStart);
@@ -61,7 +63,7 @@ public class GameActivity extends AppCompatActivity {
 
         recyclerDealerHand = findViewById(R.id.recyclerDealerHand);
         recyclerPlayerHand = findViewById(R.id.recyclerPlayerHand);
-        gameMethod = new GameMethod(0, 0, 0, playerPoints);
+        gameMethod = new GameMethod(0, 0, 0, 0);
 
         shuffleUrl = "https://www.deckofcardsapi.com/api/deck/new/shuffle/?deck_count=1";
 
@@ -155,7 +157,7 @@ public class GameActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if (btnStop.getText().toString().equals("Stop")){
                     // back to login screen
-                    Intent stop = new Intent(GameActivity.this, LoginActivity.class);
+                    Intent stop = new Intent(GameActivity.this, SignInActivity.class);
                     startActivity(stop);
                 } else if (btnStop.getText().toString().equals("Hold")) {
                     resolveDealerHand();
