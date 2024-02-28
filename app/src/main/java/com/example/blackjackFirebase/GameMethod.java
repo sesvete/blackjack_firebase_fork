@@ -138,27 +138,27 @@ public class GameMethod {
         queue.start();
     }
 
-    public void gameResolution(@NonNull Button btnStart, @NonNull Button btnStop, Context context, int id, TextView txtTotalPoints){
+    public void gameResolution(@NonNull Button btnStart, @NonNull Button btnStop, Context context, String uid, TextView txtTotalPoints){
         if (playerSum == dealerSum) {
             Toast.makeText(context, "Izenačeno", Toast.LENGTH_SHORT).show();
         } else if (playerSum == 21 && (playerSum != dealerSum) ) {
             Toast.makeText(context, "Imaš Blackjack", Toast.LENGTH_SHORT).show();
-            updatePoints(true, context, id, txtTotalPoints);
+            updatePoints(true, context, uid, txtTotalPoints);
         } else if (dealerSum == 21 && (playerSum != dealerSum) ) {
             Toast.makeText(context, "Dealer ima Blackjack", Toast.LENGTH_SHORT).show();
-            updatePoints(false, context, id, txtTotalPoints);
+            updatePoints(false, context, uid, txtTotalPoints);
         } else if (playerSum > 21) {
             Toast.makeText(context, "Zgubil si", Toast.LENGTH_SHORT).show();
-            updatePoints(false, context, id, txtTotalPoints);
+            updatePoints(false, context, uid, txtTotalPoints);
         } else if (dealerSum > 21) {
             Toast.makeText(context, "Zmagal si", Toast.LENGTH_SHORT).show();
-            updatePoints(true, context, id, txtTotalPoints);
+            updatePoints(true, context, uid, txtTotalPoints);
         } else if (playerSum > dealerSum) {
             Toast.makeText(context, "Zmagal si", Toast.LENGTH_SHORT).show();
-            updatePoints(true, context, id, txtTotalPoints);
+            updatePoints(true, context, uid, txtTotalPoints);
         } else if (playerSum < dealerSum) {
             Toast.makeText(context, "Zgubil si", Toast.LENGTH_SHORT).show();
-            updatePoints(false, context, id, txtTotalPoints);
+            updatePoints(false, context, uid, txtTotalPoints);
         }
         btnStart.setText("Start");
         btnStop.setText("Stop");
@@ -182,14 +182,15 @@ public class GameMethod {
         }
         return totalSum;
     }
-    private void updatePoints(boolean playerWon, Context context, int id, TextView txtTotalPoints) {
-        DBHelper dbHelper = new DBHelper(context);
+    private void updatePoints(boolean playerWon, Context context, String uid, TextView txtTotalPoints) {
+        RealtimeDBHelper realtimeDBHelper = new RealtimeDBHelper();
         if (playerWon){
             setPlayerPoints(getPlayerPoints() + 10);
         }else {
             setPlayerPoints(getPlayerPoints() - 10);
         }
-        dbHelper.savePointsToDB(getPlayerPoints(), id);
+        // tu se bo spremenilo
+        realtimeDBHelper.updatePoints(uid, getPlayerPoints());
         txtTotalPoints.setText(String.valueOf(getPlayerPoints()));
     }
 }

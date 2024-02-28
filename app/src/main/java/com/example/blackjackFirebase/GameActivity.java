@@ -20,11 +20,11 @@ import java.util.ArrayList;
 // TODO: fix README
 
 public class GameActivity extends AppCompatActivity {
-    private int id, playerPoints;
+    private int playerPoints;
     private RecyclerView recyclerDealerHand, recyclerPlayerHand;
     private ArrayList<Card> dealerHand, playerHand;
     private Button btnStart, btnStop;
-    private String shuffleUrl, deckID, Uid;
+    private String shuffleUrl, deckID, uid, email;
     private TextView txtTotalPoints, txtPlayerSumSum, txtDealerSumSum;
     private DealerHandRecViewAdapter dealerAdapter;
     private PlayerHandRecViewAdapter playerAdapter;
@@ -40,31 +40,27 @@ public class GameActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
+
+        RealtimeDBHelper realtimeDBHelper = new RealtimeDBHelper();
+
         Intent intent = getIntent();
         if (intent != null){
-            Uid = intent.getStringExtra("Uid");
-            Toast.makeText(this, Uid, Toast.LENGTH_SHORT).show();
+            uid = intent.getStringExtra("uid");
+            email = intent.getStringExtra("email");
+            realtimeDBHelper.checkIfUserExists(uid, email);
         }
         else {
             Toast.makeText(this, "Couldn't get user data restart application and log in again", Toast.LENGTH_SHORT).show();
 
         }
-        id = 0;
-
-        //DBHelper dbHelper = new DBHelper(GameActivity.this);
 
         txtTotalPoints = findViewById(R.id.txtTotalPoints);
-
-        //playerPoints = dbHelper.getPointsFromDB(id);
-        txtTotalPoints.setText(String.valueOf(playerPoints));
 
         btnStart = findViewById(R.id.btnStart);
         btnStop = findViewById(R.id.btnStop);
 
         recyclerDealerHand = findViewById(R.id.recyclerDealerHand);
         recyclerPlayerHand = findViewById(R.id.recyclerPlayerHand);
-        gameMethod = new GameMethod(0, 0, 0, 0);
-
         shuffleUrl = "https://www.deckofcardsapi.com/api/deck/new/shuffle/?deck_count=1";
 
         recyclerDealerHand.setLayoutManager(new GridLayoutManager(this, 4));
@@ -72,9 +68,20 @@ public class GameActivity extends AppCompatActivity {
 
         txtPlayerSumSum = findViewById(R.id.txtPlayerSumSum);
         txtDealerSumSum = findViewById(R.id.txtDealerSumSum);
-
-        txtPlayerSumSum.setText(String.valueOf(gameMethod.getPlayerSum()));
-        txtDealerSumSum.setText(String.valueOf(gameMethod.getDealerSum()));
+        // loads the initial points from the database
+        realtimeDBHelper.getPoints(uid, new RealtimeDBHelper.OnPointsReceivedListener() {
+            @Override
+            public void onPointsReceived(int points) {
+                // we wait for the point to be withdrawn before the game can proceed
+                playerPoints = points;
+                gameMethod = new GameMethod(0, 0, 0, playerPoints);
+                txtTotalPoints.setText(String.valueOf(playerPoints));
+                txtPlayerSumSum.setText(String.valueOf(gameMethod.getPlayerSum()));
+                txtDealerSumSum.setText(String.valueOf(gameMethod.getDealerSum()));
+                btnStart.setEnabled(true);
+                btnStop.setEnabled(true);
+            }
+        });
 
         btnStart.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -109,7 +116,7 @@ public class GameActivity extends AppCompatActivity {
                                     enableButtons();
                                     if (gameMethod.getPlayerSum() == 21) {
                                         revealDealerSecondCard();
-                                        gameMethod.gameResolution(btnStart, btnStop, GameActivity.this, id, txtTotalPoints);
+                                        gameMethod.gameResolution(btnStart, btnStop, GameActivity.this, uid, txtTotalPoints);
                                     }
                                 }
                                 @Override
@@ -135,7 +142,7 @@ public class GameActivity extends AppCompatActivity {
                                 resolveDealerHand();
                             } else if (gameMethod.getPlayerSum() > 21) {
                                 revealDealerSecondCard();
-                                gameMethod.gameResolution(btnStart, btnStop, GameActivity.this, id, txtTotalPoints);
+                                gameMethod.gameResolution(btnStart, btnStop, GameActivity.this, uid, txtTotalPoints);
                             }
                             enableButtons();
                         }
@@ -174,7 +181,7 @@ public class GameActivity extends AppCompatActivity {
             drawCardDealer();
         }
         else {
-            gameMethod.gameResolution(btnStart, btnStop, GameActivity.this, id, txtTotalPoints);
+            gameMethod.gameResolution(btnStart, btnStop, GameActivity.this, uid, txtTotalPoints);
         }
     }
 
@@ -190,7 +197,7 @@ public class GameActivity extends AppCompatActivity {
                 else{
                     dealerAdapter.setDealerHand(dealerHand);
                     txtDealerSumSum.setText(String.valueOf(gameMethod.getDealerSum()));
-                    gameMethod.gameResolution(btnStart, btnStop, GameActivity.this, id, txtTotalPoints);
+                    gameMethod.gameResolution(btnStart, btnStop, GameActivity.this, uid, txtTotalPoints);
                 }
             }
             @Override
