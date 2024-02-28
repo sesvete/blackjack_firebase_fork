@@ -88,7 +88,8 @@ public class SignInActivity extends AppCompatActivity {
                     // pošljemo Uid
                     FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
                     Intent intent = new Intent(SignInActivity.this, GameActivity.class);
-                    intent.putExtra("Uid", user.getUid());
+                    intent.putExtra("uid", user.getUid());
+                    intent.putExtra("email", user.getEmail());
                     startActivity(intent);
                 }
             }
