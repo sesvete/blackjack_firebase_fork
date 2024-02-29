@@ -38,3 +38,7 @@ relative layout
 
 shuffle deck
 draw cards (first 2 card, then 1)
+
+## Connect to firebase
+
+copy google-services.json into app folder

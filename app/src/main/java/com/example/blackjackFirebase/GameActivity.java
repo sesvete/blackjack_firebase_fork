@@ -62,13 +62,7 @@ public class GameActivity extends AppCompatActivity {
                     realtimeDBHelper.getPoints(uid, new RealtimeDBHelper.OnPointsReceivedListener() {
                         @Override
                         public void onPointsReceived(int points) {
-                            playerPoints = points;
-                            gameMethod = new GameMethod(0, 0, 0, playerPoints);
-                            txtTotalPoints.setText(String.valueOf(playerPoints));
-                            txtPlayerSumSum.setText(String.valueOf(gameMethod.getPlayerSum()));
-                            txtDealerSumSum.setText(String.valueOf(gameMethod.getDealerSum()));
-                            btnStart.setEnabled(true);
-                            btnStop.setEnabled(true);
+                            displayInitialPoints(0, 0, 0, points);
                         }
                     });
                 }
@@ -78,13 +72,7 @@ public class GameActivity extends AppCompatActivity {
                     realtimeDBHelper.getPoints(uid, new RealtimeDBHelper.OnPointsReceivedListener() {
                         @Override
                         public void onPointsReceived(int points) {
-                            playerPoints = points;
-                            gameMethod = new GameMethod(0, 0, 0, playerPoints);
-                            txtTotalPoints.setText(String.valueOf(playerPoints));
-                            txtPlayerSumSum.setText(String.valueOf(gameMethod.getPlayerSum()));
-                            txtDealerSumSum.setText(String.valueOf(gameMethod.getDealerSum()));
-                            btnStart.setEnabled(true);
-                            btnStop.setEnabled(true);
+                            displayInitialPoints(0, 0, 0, points);
                         }
                     });
                 }
@@ -96,6 +84,7 @@ public class GameActivity extends AppCompatActivity {
         }
         recyclerDealerHand.setLayoutManager(new GridLayoutManager(this, 4));
         recyclerPlayerHand.setLayoutManager(new GridLayoutManager(this, 4));
+
         btnStart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -246,5 +235,14 @@ public class GameActivity extends AppCompatActivity {
         recyclerPlayerHand.setAdapter(playerAdapter);
         dealerAdapter.setDealerHand(dealerHand);
         recyclerDealerHand.setAdapter(dealerAdapter);
+    }
+    private void displayInitialPoints(int playerSum, int dealerSum, int dealerRevealedValue, int points){
+        playerPoints = points;
+        gameMethod = new GameMethod(playerSum, dealerSum, dealerRevealedValue, playerPoints);
+        txtTotalPoints.setText(String.valueOf(playerPoints));
+        txtPlayerSumSum.setText(String.valueOf(gameMethod.getPlayerSum()));
+        txtDealerSumSum.setText(String.valueOf(gameMethod.getDealerSum()));
+        btnStart.setEnabled(true);
+        btnStop.setEnabled(true);
     }
 }
