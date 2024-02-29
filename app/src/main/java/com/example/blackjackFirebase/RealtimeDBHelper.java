@@ -17,24 +17,31 @@ import com.google.firebase.database.ValueEventListener;
 // TODO: determine security rules
 
 public class RealtimeDBHelper {
-
     private final FirebaseDatabase database = FirebaseDatabase.getInstance();
     private final DatabaseReference rootReference = database.getReference();
     private final DatabaseReference usersReference = rootReference.child("users");
 
-    public void test(){
-        rootReference.child("messages").setValue("Hello, World");
+    interface OnCheckExistingUser{
+        void onCreateNewUser(String uid, String email);
+        void onRetrieveExistingData(String uid, String email);
     }
 
-    public void writeNewUser(String uid, String email){
+    interface OnCreateUserCallback{
+        void onCreateUser(String uid, String email, int points);
+    }
+
+    interface OnPointsReceivedListener{
+        void onPointsReceived(int points);
+    }
+
+    public void writeNewUser(String uid, String email, OnCreateUserCallback callback){
         usersReference.child(uid).child("email").setValue(email).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 if (task.isSuccessful()) {
-                    //Toast.makeText(context, "user added successfully", Toast.LENGTH_SHORT).show();
+                    Log.d("emailSetSuccess", "Email set"); //Don't ignore potential errors!
                 } else {
-                    //Toast.makeText(context, "error", Toast.LENGTH_SHORT).show();
-                    Log.d("TAG", task.getException().getMessage()); //Don't ignore potential errors!
+                    Log.d("emailSetError", task.getException().getMessage()); //Don't ignore potential errors!
                 }
             }
         });
@@ -42,24 +49,32 @@ public class RealtimeDBHelper {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 if (task.isSuccessful()) {
-                    //Toast.makeText(context, "user added successfully", Toast.LENGTH_SHORT).show();
+                    Log.d("pointsSetSuccess", "Points set"); //Don't ignore potential errors!
                 } else {
-                    //Toast.makeText(context, "error", Toast.LENGTH_SHORT).show();
-                    Log.d("TAG", task.getException().getMessage()); //Don't ignore potential errors!
+                    Log.d("pointsSetError", task.getException().getMessage()); //Don't ignore potential errors!
                 }
             }
         });
+        callback.onCreateUser(uid, email, 100);
     }
 
     // https://stackoverflow.com/questions/47893328/checking-if-a-particular-value-exists-in-the-firebase-database
-    public void checkIfUserExists(String uid, String email){
+    public void checkIfUserExists(String uid, String email, OnCheckExistingUser check){
         DatabaseReference userNameReference = usersReference.child(uid);
-        DatabaseReference pointsReference = userNameReference.child("points");
         ValueEventListener checkForUserListener = new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if(!snapshot.exists()) {
-                    writeNewUser(uid, email);
+                    writeNewUser(uid, email, new OnCreateUserCallback() {
+                        @Override
+                        public void onCreateUser(String uid, String email, int points) {
+                            Log.d("UserSuccess", "Successfully created user");
+                        }
+                    });
+                    check.onCreateNewUser(uid, email);
+                }
+                else{
+                    check.onRetrieveExistingData(uid, email);
                 }
             }
             @Override
@@ -80,7 +95,11 @@ public class RealtimeDBHelper {
                     int userPoints = 0;
                     DataSnapshot dataSnapshot = task.getResult();
                     if (dataSnapshot.exists() && dataSnapshot.getValue() != null) {
+                        Log.d("SuccessPoints", "Points retrieved"); //Don't ignore potential errors!
                         userPoints = dataSnapshot.getValue(Integer.class);
+                    }
+                    else{
+                        Log.d("skipped points", "failure"); //Don't ignore potential errors!
                     }
                     listener.onPointsReceived(userPoints);
                 } else {
@@ -98,17 +117,11 @@ public class RealtimeDBHelper {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 if (task.isSuccessful()) {
-                    //Toast.makeText(context, "user added successfully", Toast.LENGTH_SHORT).show();
+                    Log.d("updatePointsSuccess", "points updated successfully"); //Don't ignore potential errors!
                 } else {
-                    //Toast.makeText(context, "error", Toast.LENGTH_SHORT).show();
-                    Log.d("TAG", task.getException().getMessage()); //Don't ignore potential errors!
+                    Log.d("updatePointsError", task.getException().getMessage()); //Don't ignore potential errors!
                 }
             }
         });
     }
-
-    interface OnPointsReceivedListener{
-        void onPointsReceived(int points);
-    }
-
 }

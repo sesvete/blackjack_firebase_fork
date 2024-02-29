@@ -41,48 +41,61 @@ public class GameActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
 
+        txtTotalPoints = findViewById(R.id.txtTotalPoints);
+        btnStart = findViewById(R.id.btnStart);
+        btnStop = findViewById(R.id.btnStop);
+        recyclerDealerHand = findViewById(R.id.recyclerDealerHand);
+        recyclerPlayerHand = findViewById(R.id.recyclerPlayerHand);
+        txtPlayerSumSum = findViewById(R.id.txtPlayerSumSum);
+        txtDealerSumSum = findViewById(R.id.txtDealerSumSum);
+        shuffleUrl = "https://www.deckofcardsapi.com/api/deck/new/shuffle/?deck_count=1";
+
         RealtimeDBHelper realtimeDBHelper = new RealtimeDBHelper();
 
         Intent intent = getIntent();
         if (intent != null){
             uid = intent.getStringExtra("uid");
             email = intent.getStringExtra("email");
-            realtimeDBHelper.checkIfUserExists(uid, email);
+            realtimeDBHelper.checkIfUserExists(uid, email, new RealtimeDBHelper.OnCheckExistingUser() {
+                @Override
+                public void onCreateNewUser(String uid, String email) {
+                    realtimeDBHelper.getPoints(uid, new RealtimeDBHelper.OnPointsReceivedListener() {
+                        @Override
+                        public void onPointsReceived(int points) {
+                            playerPoints = points;
+                            gameMethod = new GameMethod(0, 0, 0, playerPoints);
+                            txtTotalPoints.setText(String.valueOf(playerPoints));
+                            txtPlayerSumSum.setText(String.valueOf(gameMethod.getPlayerSum()));
+                            txtDealerSumSum.setText(String.valueOf(gameMethod.getDealerSum()));
+                            btnStart.setEnabled(true);
+                            btnStop.setEnabled(true);
+                        }
+                    });
+                }
+
+                @Override
+                public void onRetrieveExistingData(String uid, String email) {
+                    realtimeDBHelper.getPoints(uid, new RealtimeDBHelper.OnPointsReceivedListener() {
+                        @Override
+                        public void onPointsReceived(int points) {
+                            playerPoints = points;
+                            gameMethod = new GameMethod(0, 0, 0, playerPoints);
+                            txtTotalPoints.setText(String.valueOf(playerPoints));
+                            txtPlayerSumSum.setText(String.valueOf(gameMethod.getPlayerSum()));
+                            txtDealerSumSum.setText(String.valueOf(gameMethod.getDealerSum()));
+                            btnStart.setEnabled(true);
+                            btnStop.setEnabled(true);
+                        }
+                    });
+                }
+
+            });
         }
         else {
             Toast.makeText(this, "Couldn't get user data restart application and log in again", Toast.LENGTH_SHORT).show();
-
         }
-
-        txtTotalPoints = findViewById(R.id.txtTotalPoints);
-
-        btnStart = findViewById(R.id.btnStart);
-        btnStop = findViewById(R.id.btnStop);
-
-        recyclerDealerHand = findViewById(R.id.recyclerDealerHand);
-        recyclerPlayerHand = findViewById(R.id.recyclerPlayerHand);
-        shuffleUrl = "https://www.deckofcardsapi.com/api/deck/new/shuffle/?deck_count=1";
-
         recyclerDealerHand.setLayoutManager(new GridLayoutManager(this, 4));
         recyclerPlayerHand.setLayoutManager(new GridLayoutManager(this, 4));
-
-        txtPlayerSumSum = findViewById(R.id.txtPlayerSumSum);
-        txtDealerSumSum = findViewById(R.id.txtDealerSumSum);
-        // loads the initial points from the database
-        realtimeDBHelper.getPoints(uid, new RealtimeDBHelper.OnPointsReceivedListener() {
-            @Override
-            public void onPointsReceived(int points) {
-                // we wait for the point to be withdrawn before the game can proceed
-                playerPoints = points;
-                gameMethod = new GameMethod(0, 0, 0, playerPoints);
-                txtTotalPoints.setText(String.valueOf(playerPoints));
-                txtPlayerSumSum.setText(String.valueOf(gameMethod.getPlayerSum()));
-                txtDealerSumSum.setText(String.valueOf(gameMethod.getDealerSum()));
-                btnStart.setEnabled(true);
-                btnStop.setEnabled(true);
-            }
-        });
-
         btnStart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
