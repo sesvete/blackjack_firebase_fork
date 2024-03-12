@@ -12,12 +12,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.VolleyError;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 import java.util.ArrayList;
 
-// TODO: end of game procedures
-// TODO: use strings.xml file
-// TODO: fix README
 
 public class GameActivity extends AppCompatActivity {
     private int playerPoints;
@@ -51,11 +50,11 @@ public class GameActivity extends AppCompatActivity {
         shuffleUrl = "https://www.deckofcardsapi.com/api/deck/new/shuffle/?deck_count=1";
 
         RealtimeDBHelper realtimeDBHelper = new RealtimeDBHelper();
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if (user != null){
+            email = user.getEmail();
+            uid = user.getUid();
 
-        Intent intent = getIntent();
-        if (intent != null){
-            uid = intent.getStringExtra("uid");
-            email = intent.getStringExtra("email");
             realtimeDBHelper.checkIfUserExists(uid, email, new RealtimeDBHelper.OnCheckExistingUser() {
                 @Override
                 public void onCreateNewUser(String uid, String email) {
@@ -79,7 +78,7 @@ public class GameActivity extends AppCompatActivity {
 
             });
         }
-        else {
+        else{
             Toast.makeText(this, "Couldn't get user data restart application and log in again", Toast.LENGTH_SHORT).show();
         }
         recyclerDealerHand.setLayoutManager(new GridLayoutManager(this, 4));

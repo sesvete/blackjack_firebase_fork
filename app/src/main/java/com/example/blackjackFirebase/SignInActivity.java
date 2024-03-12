@@ -26,23 +26,6 @@ import com.google.firebase.auth.FirebaseUser;
 import java.util.Arrays;
 import java.util.List;
 
-// btw to bomo delali na login activityju - ta activity je samo za testiranje, ga bomo kasneje izbrisali
-// najprej chckamo, če je uporabnik vpisan - FirebaseAuth.getInstance().getCurrentUser() != null
-// če je izpišemo ime in damo možnost, da gre v igro ali pa da se izpiše
-
-// če ni vpisan damo možnost da se vpiše / ustvari nov račun
-// gumb za odjavo je v tem primeru skrit
-
-// disabled email enumeration protection
-// https://cloud.google.com/identity-platform/docs/admin/email-enumeration-protection
-// sign in v existin account s firebaseUI sicer ne dela
-
-// za zdaj bo brez testiranja emaila - bomo pol to dodali, če bo čas
-
-// TODO: Send verification email
-// TODO: reset password
-// TODO: add realtime database
-
 public class SignInActivity extends AppCompatActivity {
 
     private Button btnSignIn, btnLogOut;
@@ -85,11 +68,8 @@ public class SignInActivity extends AppCompatActivity {
                     signInLauncher.launch(signInIntent);
                 }
                 else {
-                    // pošljemo Uid
                     FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
                     Intent intent = new Intent(SignInActivity.this, GameActivity.class);
-                    intent.putExtra("uid", user.getUid());
-                    intent.putExtra("email", user.getEmail());
                     startActivity(intent);
                 }
             }
