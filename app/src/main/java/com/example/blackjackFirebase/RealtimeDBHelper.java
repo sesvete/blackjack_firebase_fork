@@ -12,9 +12,6 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-// TODO: organise code
-// TODO: Fixed README / document your work
-// TODO: determine security rules
 
 public class RealtimeDBHelper {
     private final FirebaseDatabase database = FirebaseDatabase.getInstance();
@@ -39,7 +36,7 @@ public class RealtimeDBHelper {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 if (task.isSuccessful()) {
-                    Log.d("emailSetSuccess", "Email set"); //Don't ignore potential errors!
+                    Log.d("emailSetSuccess", "Email set");
                 } else {
                     Log.d("emailSetError", task.getException().getMessage()); //Don't ignore potential errors!
                 }
@@ -49,9 +46,9 @@ public class RealtimeDBHelper {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 if (task.isSuccessful()) {
-                    Log.d("pointsSetSuccess", "Points set"); //Don't ignore potential errors!
+                    Log.d("pointsSetSuccess", "Points set");
                 } else {
-                    Log.d("pointsSetError", task.getException().getMessage()); //Don't ignore potential errors!
+                    Log.d("pointsSetError", task.getException().getMessage());
                 }
             }
         });
@@ -79,7 +76,7 @@ public class RealtimeDBHelper {
             }
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-                Log.d("checkUser", error.getMessage()); //Don't ignore errors!
+                Log.d("checkUser", error.getMessage());
             }
         };
         userNameReference.addListenerForSingleValueEvent(checkForUserListener);
@@ -95,11 +92,11 @@ public class RealtimeDBHelper {
                     int userPoints = 0;
                     DataSnapshot dataSnapshot = task.getResult();
                     if (dataSnapshot.exists() && dataSnapshot.getValue() != null) {
-                        Log.d("SuccessPoints", "Points retrieved"); //Don't ignore potential errors!
+                        Log.d("SuccessPoints", "Points retrieved");
                         userPoints = dataSnapshot.getValue(Integer.class);
                     }
                     else{
-                        Log.d("skipped points", "failure"); //Don't ignore potential errors!
+                        Log.d("skipped points", "failure");
                     }
                     listener.onPointsReceived(userPoints);
                 } else {
@@ -117,9 +114,9 @@ public class RealtimeDBHelper {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 if (task.isSuccessful()) {
-                    Log.d("updatePointsSuccess", "points updated successfully"); //Don't ignore potential errors!
+                    Log.d("updatePointsSuccess", "points updated successfully");
                 } else {
-                    Log.d("updatePointsError", task.getException().getMessage()); //Don't ignore potential errors!
+                    Log.d("updatePointsError", task.getException().getMessage());
                 }
             }
         });

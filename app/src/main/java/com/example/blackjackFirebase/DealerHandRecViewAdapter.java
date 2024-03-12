@@ -14,8 +14,6 @@ import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
 
-// TODO: hide and later reveal the second dealer card
-
 public class DealerHandRecViewAdapter extends RecyclerView.Adapter<DealerHandRecViewAdapter.ViewHolder> {
 
     private ArrayList<Card> dealerHand = new ArrayList<>();
