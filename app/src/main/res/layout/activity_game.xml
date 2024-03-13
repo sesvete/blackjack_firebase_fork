@@ -23,7 +23,6 @@
         android:id="@+id/recyclerDealerHand"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_below="@id/txtTotalPoints"
         android:layout_margin="10dp"
         app:layout_constraintBottom_toTopOf="@+id/guidelineDealerHandBottom"
         app:layout_constraintEnd_toStartOf="@+id/guidelineHandRightEdge"
@@ -34,9 +33,11 @@
         android:id="@+id/linearSumPoints"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/recyclerDealerHand"
         android:gravity="center"
         android:orientation="horizontal"
+        app:layout_constraintBottom_toTopOf="@+id/recyclerPlayerHand"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/recyclerDealerHand">
 
         <RelativeLayout
@@ -100,7 +101,7 @@
         android:id="@+id/recyclerPlayerHand"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_below="@id/linearSumPoints"
+        android:layout_margin="10dp"
         app:layout_constraintBottom_toTopOf="@+id/guidelinePlayerHandBottom"
         app:layout_constraintEnd_toStartOf="@+id/guidelineHandRightEdge"
         app:layout_constraintStart_toEndOf="@+id/guidelineHandLeftEdge"
@@ -110,7 +111,6 @@
         android:id="@+id/linearButtons"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/recyclerPlayerHand"
         android:layout_margin="10dp"
         android:gravity="center"
         android:orientation="horizontal"

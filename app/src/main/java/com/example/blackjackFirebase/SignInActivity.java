@@ -44,8 +44,7 @@ public class SignInActivity extends AppCompatActivity {
         setContentView(R.layout.activity_sign_in);
 
         List<AuthUI.IdpConfig> providers = Arrays.asList(
-                new AuthUI.IdpConfig.EmailBuilder().build(),
-                new AuthUI.IdpConfig.GoogleBuilder().build()
+                new AuthUI.IdpConfig.EmailBuilder().build()
         );
 
         imageViewSignInAce = findViewById(R.id.imageViewSignInAce);
