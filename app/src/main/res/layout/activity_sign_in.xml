@@ -26,26 +26,25 @@
 
     <ImageView
         android:id="@+id/imageViewSignInAce"
-        android:layout_width="100dp"
-        android:layout_height="139dp"
-        android:layout_marginTop="70dp"
-        app:layout_constraintEnd_toStartOf="@+id/guidelineSignIn"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/guideline"
-        app:srcCompat="@drawable/ic_launcher_background"
-        android:contentDescription="@string/AH"/>
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:contentDescription="@string/AH"
+        app:layout_constraintBottom_toTopOf="@+id/guidelineBottomOfFirstCard"
+        app:layout_constraintEnd_toStartOf="@+id/guidelineRightEdgeCard"
+        app:layout_constraintStart_toStartOf="@+id/guidelineLeftEdgeCard"
+        app:layout_constraintTop_toTopOf="@+id/guidelineTopOfFirstCard"
+        app:srcCompat="@drawable/ic_launcher_background" />
 
     <ImageView
         android:id="@+id/imageViewSignInKing"
-        android:layout_width="100dp"
-        android:layout_height="139dp"
-        android:layout_marginTop="70dp"
-        app:layout_constraintEnd_toEndOf="@+id/imageViewSignInAce"
-        app:layout_constraintStart_toStartOf="@+id/imageViewSignInAce"
-        app:layout_constraintTop_toBottomOf="@+id/imageViewSignInAce"
-        app:srcCompat="@drawable/ic_launcher_background"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         android:contentDescription="@string/KH"
-        />
+        app:layout_constraintBottom_toTopOf="@+id/guidelineBottomOfSecondCard"
+        app:layout_constraintEnd_toStartOf="@+id/guidelineRightEdgeCard"
+        app:layout_constraintStart_toStartOf="@+id/guidelineLeftEdgeCard"
+        app:layout_constraintTop_toTopOf="@+id/guidelineTopOfSecondCard"
+        app:srcCompat="@drawable/ic_launcher_background" />
 
     <Button
         android:id="@+id/btnSignIn"
@@ -86,5 +85,47 @@
         app:layout_constraintEnd_toEndOf="@+id/btnSignIn"
         app:layout_constraintStart_toStartOf="@+id/btnSignIn"
         app:layout_constraintTop_toBottomOf="@+id/btnSignIn" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guidelineTopOfFirstCard"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.338" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guidelineBottomOfFirstCard"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.517" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guidelineTopOfSecondCard"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.614" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guidelineBottomOfSecondCard"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.793" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guidelineLeftEdgeCard"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.09" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guidelineRightEdgeCard"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.329" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
