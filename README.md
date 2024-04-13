@@ -74,16 +74,22 @@ On game resolution:
 
 ### RealtimeDBHelper
 writeNewUser(String uid, String email, OnCreateUserCallback callback) - adds the user with email "email" to the database
+
 checkIfUserExists(String uid, String email, OnCheckExistingUser check) - checks if a user with the given email and uid already exits
+
 getPoints(String uid, OnPointsReceivedListener listener) - retrieves points from the database
+
 updatePoints(String uid, int points) - updates points in the database
 
 ### Game activity
 shuffleDeck(String shuffleUrl, Context context, ShuffleCallback callback)
+
 drawCard(String deckID, String numberDrawn, ArrayList<Card> hand, boolean isPlayer, Context context, DrawCardCallback callback)
 
 A callback is used so that the request can be done asynchronously.
 
 updateCardSum(String cardValue, int totalSum) - updates the total card value of either the player or dealer
+
 updatePoints(boolean playerWon, Context context, int id, TextView txtTotalPoints) - updates the player points in the database
+
 gameResolution(@NonNull Button btnStart, @NonNull Button btnStop, Context context, int id, TextView txtTotalPoints)
