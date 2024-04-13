@@ -4,7 +4,7 @@
 Newest app release is available under Releases:
 https://github.com/sesvete/blackjack_firebase_fork/releases
 
-Minimum supported version of Android OS is Android 8
+Minimum supported version of Android OS is Android 8.
 It is required to enable installation from unknown sources in your Android device
 
 ## Introduction
