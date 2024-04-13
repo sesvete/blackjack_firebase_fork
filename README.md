@@ -18,6 +18,7 @@ The app uses the following libraries:
 1) glide - image loading and caching library
 2) volley - HTTP library for sending API requests
 3) gson - for parsing JSON
+4) FirebaseUI - drop-in auth solution that handles the UI flows for signing in users
 
 The app has Two activities
 
