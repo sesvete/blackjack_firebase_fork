@@ -15,16 +15,16 @@
 
     <TextView
         android:id="@+id/txtSignInTitle"
-        android:layout_width="180dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="100dp"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_margin="20dp"
+        android:autoSizeTextType="uniform"
         android:text="@string/login_title"
         android:textAlignment="center"
-        android:textSize="20sp"
         app:layout_constraintBottom_toTopOf="@+id/guidelineNewUserTop"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@+id/guidelineSignIn"
-        app:layout_constraintTop_toTopOf="@+id/guideline" />
+        app:layout_constraintTop_toTopOf="@+id/guidelineTopOfFirstCard" />
 
     <ImageView
         android:id="@+id/imageViewSignInAce"
@@ -53,6 +53,7 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:text="@string/login_btn"
+        android:autoSizeTextType="uniform"
         android:layout_margin="10dp"
         app:layout_constraintBottom_toTopOf="@+id/guidelineNewUserBottom"
         app:layout_constraintEnd_toEndOf="parent"
@@ -69,11 +70,12 @@
     <TextView
         android:id="@+id/txtAppTitleSignIn"
         style="bold"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_margin="20dp"
         android:text="@string/app_name"
         android:textAlignment="center"
-        android:textSize="50sp"
+        android:autoSizeTextType="uniform"
         app:layout_constraintBottom_toTopOf="@+id/guideline"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -85,6 +87,7 @@
         android:layout_height="0dp"
         android:layout_margin="10dp"
         android:text="Logout"
+        android:autoSizeTextType="uniform"
         app:layout_constraintBottom_toTopOf="@+id/guidelineLogoutBottom"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@+id/guidelineSignIn"

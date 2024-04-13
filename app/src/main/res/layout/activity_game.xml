@@ -8,15 +8,16 @@
 
     <TextView
         android:id="@+id/txtTotalPoints"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="@string/points_hint"
-        android:padding="10dp"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:autoSizeTextType="uniform"
+        android:text="@string/points_hint"
+        android:layout_margin="10dp"
         android:textAlignment="center"
-        android:textSize="30sp"
         android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/guidelineDealerHandTop"
+        app:layout_constraintEnd_toStartOf="@+id/guidelineHandRightEdge"
+        app:layout_constraintStart_toStartOf="@+id/guidelineHandLeftEdge"
         app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.recyclerview.widget.RecyclerView
@@ -107,33 +108,32 @@
         app:layout_constraintStart_toEndOf="@+id/guidelineHandLeftEdge"
         app:layout_constraintTop_toBottomOf="@+id/guidelinePlayerHandTop" />
 
-    <LinearLayout
-        android:id="@+id/linearButtons"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:gravity="center"
-        android:orientation="horizontal"
+    <Button
+        android:id="@+id/btnStart"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_margin="20dp"
+        android:enabled="false"
+        android:text="@string/btn_start"
+        android:autoSizeTextType="uniform"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@+id/recyclerPlayerHand"
-        app:layout_constraintStart_toStartOf="@+id/recyclerPlayerHand"
-        app:layout_constraintTop_toBottomOf="@+id/recyclerPlayerHand">
+        app:layout_constraintEnd_toStartOf="@id/guidelineVerticalMiddle"
+        app:layout_constraintStart_toEndOf="@+id/guidelineHandLeftEdge"
+        app:layout_constraintTop_toTopOf="@+id/guidelinePlayerHandBottom"
+        />
 
-        <Button
-            android:id="@+id/btnStart"
-            android:layout_width="120dp"
-            android:layout_height="50dp"
-            android:layout_marginEnd="50dp"
-            android:enabled="false"
-            android:text="@string/btn_start" />
-
-        <Button
-            android:id="@+id/btnStop"
-            android:layout_width="120dp"
-            android:layout_height="50dp"
-            android:enabled="false"
-            android:text="@string/btn_stop" />
-    </LinearLayout>
+    <Button
+        android:id="@+id/btnStop"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_margin="20dp"
+        android:enabled="false"
+        android:text="@string/btn_stop"
+        android:autoSizeTextType="uniform"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/guidelineHandRightEdge"
+        app:layout_constraintStart_toStartOf="@+id/guidelineVerticalMiddle"
+        app:layout_constraintTop_toTopOf="@+id/guidelinePlayerHandBottom" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guidelineDealerHandTop"
@@ -176,6 +176,13 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         app:layout_constraintGuide_percent="0.97" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guidelineVerticalMiddle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.5" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
