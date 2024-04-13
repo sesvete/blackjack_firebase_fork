@@ -15,14 +15,16 @@
 
     <TextView
         android:id="@+id/txtSignInTitle"
-        android:layout_width="180dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="100dp"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_margin="20dp"
+        android:autoSizeTextType="uniform"
         android:text="@string/login_title"
-        android:textSize="15sp"
+        android:textAlignment="center"
+        app:layout_constraintBottom_toTopOf="@+id/guidelineNewUserTop"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@+id/guidelineSignIn"
-        app:layout_constraintTop_toTopOf="@+id/guideline" />
+        app:layout_constraintTop_toTopOf="@+id/guidelineTopOfFirstCard" />
 
     <ImageView
         android:id="@+id/imageViewSignInAce"
@@ -48,13 +50,15 @@
 
     <Button
         android:id="@+id/btnSignIn"
-        android:layout_width="160dp"
-        android:layout_height="60dp"
-        android:layout_marginTop="100dp"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         android:text="@string/login_btn"
+        android:autoSizeTextType="uniform"
+        android:layout_margin="10dp"
+        app:layout_constraintBottom_toTopOf="@+id/guidelineNewUserBottom"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@+id/guidelineSignIn"
-        app:layout_constraintTop_toBottomOf="@+id/txtSignInTitle" />
+        app:layout_constraintTop_toTopOf="@+id/guidelineNewUserTop" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline"
@@ -66,10 +70,12 @@
     <TextView
         android:id="@+id/txtAppTitleSignIn"
         style="bold"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_margin="20dp"
         android:text="@string/app_name"
-        android:textSize="50sp"
+        android:textAlignment="center"
+        android:autoSizeTextType="uniform"
         app:layout_constraintBottom_toTopOf="@+id/guideline"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -77,14 +83,15 @@
 
     <Button
         android:id="@+id/btnLogOut"
-        android:layout_width="160dp"
-        android:layout_height="60dp"
-        android:layout_marginBottom="100dp"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_margin="10dp"
         android:text="Logout"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@+id/btnSignIn"
-        app:layout_constraintStart_toStartOf="@+id/btnSignIn"
-        app:layout_constraintTop_toBottomOf="@+id/btnSignIn" />
+        android:autoSizeTextType="uniform"
+        app:layout_constraintBottom_toTopOf="@+id/guidelineLogoutBottom"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/guidelineSignIn"
+        app:layout_constraintTop_toTopOf="@+id/guidelineLogoutTop" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guidelineTopOfFirstCard"
@@ -127,5 +134,33 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         app:layout_constraintGuide_percent="0.329" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guidelineNewUserTop"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.45" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guidelineNewUserBottom"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.55" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guidelineLogoutTop"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.65" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guidelineLogoutBottom"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.75" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

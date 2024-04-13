@@ -1,6 +1,7 @@
 package com.example.blackjackFirebase;
 
 import android.content.Context;
+import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,6 +36,18 @@ public class PlayerHandRecViewAdapter extends RecyclerView.Adapter<PlayerHandRec
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Glide.with(context).asBitmap().load(playerHand.get(position).getImage()).into(holder.imgHandCard);
+
+        // Calculate desired width and height based on screen size
+        DisplayMetrics displayMetrics = context.getResources().getDisplayMetrics();
+        int screenWidth = displayMetrics.widthPixels;
+        int desiredWidth = screenWidth / 5; // Adjust this ratio as needed
+        int desiredHeight = (int) (desiredWidth * 1.4); // Assuming aspect ratio of 1.4 for card images (width / height)
+
+        // Set layout parameters for ImageView
+        ViewGroup.LayoutParams layoutParams = holder.imgHandCard.getLayoutParams();
+        layoutParams.width = desiredWidth;
+        layoutParams.height = desiredHeight;
+        holder.imgHandCard.setLayoutParams(layoutParams);
     }
 
     @Override
